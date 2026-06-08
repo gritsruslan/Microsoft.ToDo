@@ -1,8 +1,14 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.ToDo.Infrastructure;
 
-builder.Services
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen();
+
+services.AddInfrastructure(configuration);
 
 var app = builder.Build();
 
