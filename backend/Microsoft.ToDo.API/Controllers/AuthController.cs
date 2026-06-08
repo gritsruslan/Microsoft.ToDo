@@ -30,9 +30,15 @@ public sealed class AuthController(IAuthService service) : ControllerBase
         return Ok();
     }
 
-    [SwaggerIgnore]
-    private void PutAccessToken(string accessToken)
+    [HttpPost("logout")]
+    public IActionResult Logout()
     {
+        Response.Cookies.Delete(JwtCookieNames.AccessToken);
+        return NoContent();
+    }
+
+    [SwaggerIgnore]
+    private void PutAccessToken(string accessToken) =>
         Response.Cookies.Append(JwtCookieNames.AccessToken, accessToken,
             new CookieOptions
             {
@@ -40,5 +46,4 @@ public sealed class AuthController(IAuthService service) : ControllerBase
                 Secure = false,
                 SameSite = SameSiteMode.Strict,
             });
-    }
 }
