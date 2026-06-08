@@ -21,12 +21,16 @@ builder.Services
 
 services
     .AddApplication()
+    .AddAuth(configuration)
     .AddInfrastructure(configuration);
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 

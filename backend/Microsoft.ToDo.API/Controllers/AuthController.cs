@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.ToDo.Application.Abstraction;
+using Microsoft.ToDo.Application.Auth;
 using Microsoft.ToDo.Application.DTOs;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Microsoft.ToDo.API.Controllers;
 
@@ -10,11 +12,11 @@ public sealed class AuthController(IAuthService service) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<IActionResult> Register(
-        [FromBody] RegisterRequest registerRequest, 
+        [FromBody] RegisterRequest registerRequest,
         CancellationToken cancellationToken)
     {
-        //TODO generate and save JWT
-        await service.Register(registerRequest, cancellationToken);
+        var token = await service.Register(registerRequest, cancellationToken);
+        this.PutAccessToken(token);
         return Ok();
     }
 
@@ -23,8 +25,20 @@ public sealed class AuthController(IAuthService service) : ControllerBase
         [FromBody] LoginRequest loginRequest,
         CancellationToken cancellationToken)
     {
-        //TODO generate and save JWT
-        await service.Login(loginRequest, cancellationToken);
+        var token = await service.Login(loginRequest, cancellationToken);
+        this.PutAccessToken(token);
         return Ok();
+    }
+
+    [SwaggerIgnore]
+    private void PutAccessToken(string accessToken)
+    {
+        Response.Cookies.Append(JwtCookieNames.AccessToken, accessToken,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = false,
+                SameSite = SameSiteMode.Strict,
+            });
     }
 }

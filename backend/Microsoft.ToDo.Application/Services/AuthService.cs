@@ -6,26 +6,28 @@ using Microsoft.ToDo.Domain.Models;
 
 namespace Microsoft.ToDo.Application.Services;
 
-internal sealed class AuthService(UserManager<ApplicationUser> userManager) : IAuthService
+internal sealed class AuthService(
+    UserManager<ApplicationUser> userManager,
+    IJwtGenerator jwtGenerator) : IAuthService
 {
     public async Task<string> Register(
         RegisterRequest request, 
         CancellationToken cancellationToken)
     {
         var (email, password) = request;
-        
-        var result = await userManager.CreateAsync(new ApplicationUser
+        var user = new ApplicationUser
         {
             UserName = email,
             Email = email
-        }, password);
+        };
         
+        var result = await userManager.CreateAsync(user, password);
         if (!result.Succeeded)
         {
             throw new DomainException(result.Errors.First().Description);
         }
 
-        return string.Empty;
+        return jwtGenerator.GenerateAccessToken(user);
     }
 
     public async Task<string> Login(LoginRequest request, CancellationToken cancellationToken)
@@ -44,6 +46,6 @@ internal sealed class AuthService(UserManager<ApplicationUser> userManager) : IA
             throw new InvalidEmailOrPasswordException();
         }
 
-        return string.Empty;
+        return jwtGenerator.GenerateAccessToken(user);
     }
 }
