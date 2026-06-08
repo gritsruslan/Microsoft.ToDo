@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.ToDo.API.Middlewares;
 using Microsoft.ToDo.Application;
 using Microsoft.ToDo.Domain.Models;
 using Microsoft.ToDo.Infrastructure;
@@ -26,6 +27,8 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapControllers();
 
