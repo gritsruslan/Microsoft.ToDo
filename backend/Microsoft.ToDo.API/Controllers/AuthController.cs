@@ -17,4 +17,14 @@ public sealed class AuthController(IAuthService service) : ControllerBase
         await service.Register(registerRequest, cancellationToken);
         return Ok();
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(
+        [FromBody] LoginRequest loginRequest,
+        CancellationToken cancellationToken)
+    {
+        //TODO generate and save JWT
+        await service.Login(loginRequest, cancellationToken);
+        return Ok();
+    }
 }

@@ -27,4 +27,23 @@ internal sealed class AuthService(UserManager<ApplicationUser> userManager) : IA
 
         return string.Empty;
     }
+
+    public async Task<string> Login(LoginRequest request, CancellationToken cancellationToken)
+    {
+        var (email, password) = request;
+        
+        var user = await userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            throw new InvalidEmailOrPasswordException();
+        }
+        
+        var isValidPassword = await userManager.CheckPasswordAsync(user, password);
+        if (!isValidPassword)
+        {
+            throw new InvalidEmailOrPasswordException();
+        }
+
+        return string.Empty;
+    }
 }
