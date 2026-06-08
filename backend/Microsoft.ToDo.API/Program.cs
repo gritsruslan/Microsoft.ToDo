@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.ToDo.Application;
+using Microsoft.ToDo.Domain.Models;
 using Microsoft.ToDo.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,11 +11,22 @@ services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen();
 
-services.AddInfrastructure(configuration);
+services.AddControllers();
+
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ToDoDbContext>()
+    .AddDefaultTokenProviders();
+
+services
+    .AddApplication()
+    .AddInfrastructure(configuration);
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.MapControllers();
 
 app.Run();

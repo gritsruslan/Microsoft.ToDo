@@ -4,7 +4,7 @@ using Microsoft.ToDo.Domain.Models;
 
 namespace Microsoft.ToDo.Infrastructure;
 
-internal sealed class ToDoDbContext(DbContextOptions<ToDoDbContext> options) : 
+public sealed class ToDoDbContext(DbContextOptions<ToDoDbContext> options) : 
     IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<Category> Categories => Set<Category>();

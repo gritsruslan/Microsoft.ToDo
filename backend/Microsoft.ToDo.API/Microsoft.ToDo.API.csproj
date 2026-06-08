@@ -12,6 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Microsoft.ToDo.Application\Microsoft.ToDo.Application.csproj" />
+      <ProjectReference Include="..\Microsoft.ToDo.Domain\Microsoft.ToDo.Domain.csproj" />
       <ProjectReference Include="..\Microsoft.ToDo.Infrastructure\Microsoft.ToDo.Infrastructure.csproj" />
     </ItemGroup>
 
