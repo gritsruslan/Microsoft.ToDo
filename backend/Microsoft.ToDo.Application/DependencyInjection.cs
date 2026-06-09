@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,8 @@ public static class DependencyInjection
     {
         services.AddScoped<IAuthService, AuthService>();
 
+        services.AddValidatorsFromAssemblyContaining<AuthService>(includeInternalTypes: true);
+        
         return services;
     }
 

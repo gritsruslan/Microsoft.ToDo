@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.ToDo.Application.Abstraction;
 using Microsoft.ToDo.Application.DTOs;
 using Microsoft.ToDo.Application.Exceptions;
@@ -8,12 +9,16 @@ namespace Microsoft.ToDo.Application.Services;
 
 internal sealed class AuthService(
     UserManager<ApplicationUser> userManager,
-    IJwtGenerator jwtGenerator) : IAuthService
+    IJwtGenerator jwtGenerator,
+    IValidator<LoginRequest> loginValidator,
+    IValidator<RegisterRequest> registerValidator) : IAuthService
 {
     public async Task<string> Register(
         RegisterRequest request, 
         CancellationToken cancellationToken)
     {
+        await registerValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
         var (email, password) = request;
         var user = new ApplicationUser
         {
@@ -32,6 +37,8 @@ internal sealed class AuthService(
 
     public async Task<string> Login(LoginRequest request, CancellationToken cancellationToken)
     {
+        await loginValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
         var (email, password) = request;
         
         var user = await userManager.FindByEmailAsync(email);
