@@ -8,4 +8,7 @@ public interface ICategoryService
         CreateCategoryRequest request, 
         string? userId, 
         CancellationToken cancellationToken);
+    
+    Task<IEnumerable<CategoryDto>> GetAllCategories(
+        string? userId, CancellationToken cancellationToken);
 }

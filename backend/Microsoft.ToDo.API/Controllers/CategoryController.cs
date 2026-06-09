@@ -18,4 +18,12 @@ public sealed class CategoryController(ICategoryService categoryService) : Contr
         var categoryDto = await categoryService.CreateCategory(new CreateCategoryRequest(name), userId, cancellationToken);
         return Created((string?) null, categoryDto);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        string? userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtClaims.UserId)?.Value;
+        var categoryDtos = await categoryService.GetAllCategories(userId, cancellationToken);
+        return Ok(categoryDtos);
+    }
 }

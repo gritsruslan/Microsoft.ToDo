@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.ToDo.Application.Abstraction;
 using Microsoft.ToDo.Domain.Models;
 
@@ -15,7 +16,13 @@ internal sealed class CategoryRepository(ToDoDbContext dbContext) : ICategoryRep
         }, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return category.Entity;
     }
+
+    public async Task<IEnumerable<Category>> GetAllByUser(
+        string userId, CancellationToken cancellationToken) =>
+        await dbContext.Categories
+            .Where(c => c.UserId == userId)
+            .ToListAsync(cancellationToken);
 }

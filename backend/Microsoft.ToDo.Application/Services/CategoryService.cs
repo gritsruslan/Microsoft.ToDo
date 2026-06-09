@@ -21,4 +21,17 @@ internal sealed class CategoryService(ICategoryRepository repository,
 
         return new CategoryDto(category.Id, category.Name);
     }
+
+    public async Task<IEnumerable<CategoryDto>> GetAllCategories(
+        string? userId, CancellationToken cancellationToken)
+    {
+        if (userId is null)
+        {
+            throw new UnauthorizedException();
+        }
+
+        var categories = await repository.GetAllByUser(userId, cancellationToken);
+        
+        return categories.Select(c => new CategoryDto(c.Id, c.Name));
+    }
 }
