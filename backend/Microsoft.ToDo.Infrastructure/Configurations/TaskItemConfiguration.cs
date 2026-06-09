@@ -12,6 +12,10 @@ internal sealed class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
         builder.HasKey(t => t.Id);
 
         builder
+            .Property(t => t.Id)
+            .ValueGeneratedOnAdd();
+        
+        builder
             .Property(t => t.Title)
             .HasMaxLength(TaskItemConstants.TitleMaxLength);
 
