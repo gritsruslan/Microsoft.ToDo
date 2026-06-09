@@ -6,7 +6,7 @@ using Microsoft.ToDo.Application.Exceptions;
 
 namespace Microsoft.ToDo.API.Middlewares;
 
-public sealed class ErrorHandlingMiddleware(
+internal sealed class ErrorHandlingMiddleware(
     RequestDelegate next,
     ProblemDetailsFactory problemDetailsFactory,
     ILogger<ErrorHandlingMiddleware> logger)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.ToDo.API.Helpers;
 using Microsoft.ToDo.Application.Abstraction;
 using Microsoft.ToDo.Application.Auth;
 using Microsoft.ToDo.Application.DTOs;
@@ -16,7 +17,7 @@ public sealed class AuthController(IAuthService service) : ControllerBase
         CancellationToken cancellationToken)
     {
         var token = await service.Register(registerRequest, cancellationToken);
-        this.PutAccessToken(token);
+        AuthTokenHelper.StoreAccessToken(HttpContext, token);
         return Ok();
     }
 
@@ -26,24 +27,14 @@ public sealed class AuthController(IAuthService service) : ControllerBase
         CancellationToken cancellationToken)
     {
         var token = await service.Login(loginRequest, cancellationToken);
-        this.PutAccessToken(token);
+        AuthTokenHelper.StoreAccessToken(HttpContext, token);
         return Ok();
     }
 
     [HttpPost("logout")]
     public IActionResult Logout()
     {
-        Response.Cookies.Delete(JwtCookieNames.AccessToken);
+        AuthTokenHelper.RemoveAccessToken(HttpContext);
         return NoContent();
     }
-
-    [SwaggerIgnore]
-    private void PutAccessToken(string accessToken) =>
-        Response.Cookies.Append(JwtCookieNames.AccessToken, accessToken,
-            new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = false,
-                SameSite = SameSiteMode.Strict,
-            });
 }

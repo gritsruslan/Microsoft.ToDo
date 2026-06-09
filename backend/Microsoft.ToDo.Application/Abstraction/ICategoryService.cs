@@ -4,11 +4,11 @@ namespace Microsoft.ToDo.Application.Abstraction;
 
 public interface ICategoryService
 {
-    Task<CategoryDto> CreateCategory(
+    Task<CategoryResponse> CreateCategory(
         CreateCategoryRequest request, 
         string? userId, 
         CancellationToken cancellationToken);
     
-    Task<IEnumerable<CategoryDto>> GetAllCategories(
+    Task<IEnumerable<CategoryResponse>> GetAllCategories(
         string? userId, CancellationToken cancellationToken);
 }

@@ -8,7 +8,7 @@ namespace Microsoft.ToDo.Application.Services;
 internal sealed class CategoryService(ICategoryRepository repository, 
     IValidator<CreateCategoryRequest> validator): ICategoryService
 {
-    public async Task<CategoryDto> CreateCategory(CreateCategoryRequest request, string? userId, CancellationToken cancellationToken)
+    public async Task<CategoryResponse> CreateCategory(CreateCategoryRequest request, string? userId, CancellationToken cancellationToken)
     {
         if (userId is null)
         {
@@ -19,10 +19,10 @@ internal sealed class CategoryService(ICategoryRepository repository,
 
         var category = await repository.Create(request.Name, userId, cancellationToken);
 
-        return new CategoryDto(category.Id, category.Name);
+        return new CategoryResponse(category.Id, category.Name);
     }
 
-    public async Task<IEnumerable<CategoryDto>> GetAllCategories(
+    public async Task<IEnumerable<CategoryResponse>> GetAllCategories(
         string? userId, CancellationToken cancellationToken)
     {
         if (userId is null)
@@ -32,6 +32,6 @@ internal sealed class CategoryService(ICategoryRepository repository,
 
         var categories = await repository.GetAllByUser(userId, cancellationToken);
         
-        return categories.Select(c => new CategoryDto(c.Id, c.Name));
+        return categories.Select(c => new CategoryResponse(c.Id, c.Name));
     }
 }
