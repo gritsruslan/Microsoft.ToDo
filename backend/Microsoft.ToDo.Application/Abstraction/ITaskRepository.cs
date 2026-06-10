@@ -18,4 +18,9 @@ public interface ITaskRepository
         int skip, 
         int take, 
         CancellationToken cancellationToken);
+    
+    Task<TaskItem?> GetById(int id, CancellationToken cancellationToken);
+
+    Task Update(int id, string title, DateTimeOffset? dueDate, bool isCompleted,
+        CancellationToken cancellationToken);
 }

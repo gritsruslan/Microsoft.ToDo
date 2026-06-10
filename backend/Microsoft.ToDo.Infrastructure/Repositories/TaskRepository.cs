@@ -59,4 +59,21 @@ internal sealed class TaskRepository(ToDoDbContext dbContext) : ITaskRepository
 
         return (items, totalCount);
     }
+
+    public Task<TaskItem?> GetById(int id, CancellationToken cancellationToken) => 
+        dbContext.TaskItems.Where(t => t.Id == id).FirstOrDefaultAsync(cancellationToken);
+
+    public Task Update(
+        int id, 
+        string title, 
+        DateTimeOffset? dueDate, 
+        bool isCompleted, 
+        CancellationToken cancellationToken)
+    {
+        return dbContext.TaskItems.Where(t => t.Id == id)
+            .ExecuteUpdateAsync(s =>
+            s.SetProperty(t => t.Title, title)
+                .SetProperty(t => t.DueDate, dueDate)
+                .SetProperty(t => t.IsCompleted, isCompleted), cancellationToken);
+    }
 }

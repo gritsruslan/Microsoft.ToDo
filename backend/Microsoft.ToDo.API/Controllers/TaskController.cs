@@ -26,4 +26,13 @@ public sealed class TaskController(ITaskService service) : ControllerBase
         var tasks = await service.SearchTasks(request, userId, cancellationToken);
         return Ok(tasks);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateTaskRequest(
+        [FromBody] UpdateTaskRequest request, CancellationToken cancellationToken)
+    {
+        var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
+        await service.UpdateTask(request, userId, cancellationToken);
+        return Ok();
+    }
 }

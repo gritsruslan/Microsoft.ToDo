@@ -11,4 +11,6 @@ public interface ITaskService
         SearchTasksRequest request, 
         string? userId,
         CancellationToken cancellationToken);
+    
+    Task UpdateTask(UpdateTaskRequest request, string? userId, CancellationToken cancellationToken);
 }

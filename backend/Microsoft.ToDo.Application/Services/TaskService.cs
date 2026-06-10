@@ -9,7 +9,8 @@ internal sealed class TaskService(
     ITaskRepository taskRepository, 
     ICategoryRepository categoryRepository,
     IValidator<CreateTaskRequest> createTaskValidator,
-    IValidator<SearchTasksRequest> searchTasksValidator) : ITaskService
+    IValidator<SearchTasksRequest> searchTasksValidator,
+    IValidator<UpdateTaskRequest> updateTaskValidator) : ITaskService
 {
     public async Task<TaskResponse> CreateTask(
         CreateTaskRequest request, string? userId, CancellationToken cancellationToken)
@@ -71,5 +72,27 @@ internal sealed class TaskService(
             new TaskReadModel(t.Id, t.Title, t.DueDate, t.CategoryId, t.Category.Name));
 
         return new PagedData<TaskReadModel>(taskReadModels, totalCount, page, pageSize);
+    }
+
+    public async Task UpdateTask(
+        UpdateTaskRequest request, 
+        string? userId, 
+        CancellationToken cancellationToken)
+    {
+        await updateTaskValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
+        var (taskId, title, dueDate, isCompleted) = request;
+        if (userId is null)
+        {
+            throw new UnauthorizedException();
+        }
+
+        var task = await taskRepository.GetById(taskId, cancellationToken);
+        if (task is null)
+        {
+            throw new TaskNotFoundException(taskId);
+        }
+
+        await taskRepository.Update(taskId, title, dueDate, isCompleted, cancellationToken);
     }
 }
