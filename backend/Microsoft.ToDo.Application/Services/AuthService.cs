@@ -55,4 +55,20 @@ internal sealed class AuthService(
 
         return jwtGenerator.GenerateAccessToken(user);
     }
+
+    public async Task<GetMeResponse> GetMe(string? userId, CancellationToken cancellationToken)
+    {
+        if (userId is null)
+        {
+            throw new UnauthorizedException();
+        }
+        
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            throw new UnauthorizedException();
+        }
+        
+        return new GetMeResponse(user.Id, user.Email ?? throw new InvalidOperationException());
+    }
 }

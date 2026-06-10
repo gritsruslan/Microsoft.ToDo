@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.ToDo.API.Helpers;
 using Microsoft.ToDo.Application.Abstraction;
-using Microsoft.ToDo.Application.Auth;
 using Microsoft.ToDo.Application.DTOs;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Microsoft.ToDo.API.Controllers;
 
@@ -36,5 +34,13 @@ public sealed class AuthController(IAuthService service) : ControllerBase
     {
         AuthTokenHelper.RemoveAccessToken(HttpContext);
         return NoContent();
+    }
+
+    [HttpGet("me")]
+    public async Task<IActionResult> Me(CancellationToken cancellationToken)
+    {
+        var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
+        var response = await service.GetMe(userId, cancellationToken);
+        return Ok(response);
     }
 }
