@@ -17,7 +17,7 @@ public sealed class TaskController(ITaskService service) : ControllerBase
         var task = await service.CreateTask(request, userId, cancellationToken);
         return Created((string?) null, task);
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> Search(
         [FromQuery] SearchTasksRequest request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ public sealed class TaskController(ITaskService service) : ControllerBase
         var tasks = await service.SearchTasks(request, userId, cancellationToken);
         return Ok(tasks);
     }
-
+    
     [HttpPut]
     public async Task<IActionResult> UpdateTaskRequest(
         [FromBody] UpdateTaskRequest request, CancellationToken cancellationToken)
@@ -34,5 +34,14 @@ public sealed class TaskController(ITaskService service) : ControllerBase
         var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
         await service.UpdateTask(request, userId, cancellationToken);
         return Ok();
+    }
+
+    [HttpDelete("{taskId}")]
+    public async Task<IActionResult> DeleteTask(
+        [FromRoute] int taskId, CancellationToken cancellationToken)
+    {
+        var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
+        await service.DeleteTask(taskId, userId, cancellationToken);
+        return NoContent();
     }
 }

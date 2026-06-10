@@ -95,4 +95,21 @@ internal sealed class TaskService(
 
         await taskRepository.Update(taskId, title, dueDate, isCompleted, cancellationToken);
     }
+
+    public async Task DeleteTask(int taskId, string? userId, CancellationToken cancellationToken)
+    {
+        var task = await taskRepository.GetById(taskId, cancellationToken);
+
+        if (task is null)
+        {
+            throw new TaskNotFoundException(taskId);
+        }
+        
+        if (task.UserId != userId)
+        {
+            throw new ForbiddenException();
+        }
+        
+        await taskRepository.Delete(taskId, cancellationToken);
+    }
 }

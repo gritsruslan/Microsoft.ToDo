@@ -13,4 +13,6 @@ public interface ITaskService
         CancellationToken cancellationToken);
     
     Task UpdateTask(UpdateTaskRequest request, string? userId, CancellationToken cancellationToken);
+    
+    Task DeleteTask(int taskId, string? userId, CancellationToken cancellationToken);
 }

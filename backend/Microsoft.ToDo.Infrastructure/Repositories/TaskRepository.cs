@@ -76,4 +76,7 @@ internal sealed class TaskRepository(ToDoDbContext dbContext) : ITaskRepository
                 .SetProperty(t => t.DueDate, dueDate)
                 .SetProperty(t => t.IsCompleted, isCompleted), cancellationToken);
     }
+
+    public Task Delete(int id, CancellationToken cancellationToken) => 
+        dbContext.TaskItems.Where(t => t.Id == id).ExecuteDeleteAsync(cancellationToken);
 }

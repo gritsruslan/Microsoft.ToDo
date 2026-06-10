@@ -23,4 +23,6 @@ public interface ITaskRepository
 
     Task Update(int id, string title, DateTimeOffset? dueDate, bool isCompleted,
         CancellationToken cancellationToken);
+    
+    Task Delete(int id, CancellationToken cancellationToken);
 }
