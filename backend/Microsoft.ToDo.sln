@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.ToDo.Domain", "Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.ToDo.Infrastructure", "Microsoft.ToDo.Infrastructure\Microsoft.ToDo.Infrastructure.csproj", "{2402BDF6-4E0C-4B09-9E8D-96450598AAFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.ToDo.UnitTests", "Microsoft.ToDo.UnitTests\Microsoft.ToDo.UnitTests.csproj", "{24D43327-88E3-4115-9391-CA6E62F6DF22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,5 +40,9 @@ Global
 		{2402BDF6-4E0C-4B09-9E8D-96450598AAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2402BDF6-4E0C-4B09-9E8D-96450598AAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2402BDF6-4E0C-4B09-9E8D-96450598AAFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D43327-88E3-4115-9391-CA6E62F6DF22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D43327-88E3-4115-9391-CA6E62F6DF22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D43327-88E3-4115-9391-CA6E62F6DF22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D43327-88E3-4115-9391-CA6E62F6DF22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
