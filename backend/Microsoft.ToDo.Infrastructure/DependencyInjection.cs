@@ -18,7 +18,9 @@ public static class DependencyInjection
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
 
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services
+            .AddScoped<ICategoryRepository, CategoryRepository>()
+            .AddScoped<ITaskRepository, TaskRepository>();
 
         return services;
     }

@@ -4,4 +4,4 @@ public class DomainException(string? message = null, DomainErrorCode errorCode =
     : Exception(message)
 {
     public DomainErrorCode ErrorCode => errorCode;
-} ;
+}

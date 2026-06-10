@@ -16,7 +16,8 @@ public static class DependencyInjection
     {
         services
             .AddScoped<IAuthService, AuthService>()
-            .AddScoped<ICategoryService, CategoryService>();
+            .AddScoped<ICategoryService, CategoryService>()
+            .AddScoped<ITaskService, TaskService>();
 
         services.AddValidatorsFromAssemblyContaining<AuthService>(includeInternalTypes: true);
         
