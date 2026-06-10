@@ -17,4 +17,13 @@ public sealed class TaskController(ITaskService service) : ControllerBase
         var task = await service.CreateTask(request, userId, cancellationToken);
         return Created((string?) null, task);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Search(
+        [FromQuery] SearchTasksRequest request, CancellationToken cancellationToken)
+    {
+        var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
+        var tasks = await service.SearchTasks(request, userId, cancellationToken);
+        return Ok(tasks);
+    }
 }

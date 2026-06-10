@@ -10,4 +10,12 @@ public interface ITaskRepository
         int categoryId, 
         string userId, 
         CancellationToken cancellationToken);
+    
+    Task<(IEnumerable<TaskItem> items, int totalCount)> Search(
+        string? searchQuery, 
+        int? categoryId,
+        string userId,
+        int skip, 
+        int take, 
+        CancellationToken cancellationToken);
 }

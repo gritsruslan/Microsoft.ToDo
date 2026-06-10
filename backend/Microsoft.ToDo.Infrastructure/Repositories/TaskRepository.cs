@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.ToDo.Application.Abstraction;
 using Microsoft.ToDo.Domain.Models;
 
@@ -25,5 +27,36 @@ internal sealed class TaskRepository(ToDoDbContext dbContext) : ITaskRepository
         await dbContext.SaveChangesAsync(cancellationToken);
         
         return task.Entity;
+    }
+
+    public async Task<(IEnumerable<TaskItem> items, int totalCount)> Search(
+        string? searchQuery,
+        int? categoryId,
+        string userId,
+        int skip,
+        int take,
+        CancellationToken cancellationToken)
+    {
+        var query = dbContext.TaskItems.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            query = query.Where(t => EF.Functions.Like(t.Title, $"%{searchQuery}%", @"\"));
+        }
+
+        if (categoryId is not null)
+        {
+            query = query.Where(t => t.CategoryId == categoryId);
+        }
+        
+        query = query.Where(t => t.UserId == userId);
+        
+        var totalCount = await query.CountAsync(cancellationToken);
+        var items = await query
+            .Include(t => t.Category)
+            .Skip(skip).Take(take)
+            .ToListAsync(cancellationToken);
+
+        return (items, totalCount);
     }
 }
