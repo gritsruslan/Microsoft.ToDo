@@ -19,6 +19,11 @@ internal sealed class TaskService(
         
         var (title, categoryId, dueDate) = request;
 
+        if (userId is null)
+        {
+            throw new UnauthorizedException();
+        }
+        
         var category = await categoryRepository.GetById(categoryId, cancellationToken);
         if (category is null)
         {
@@ -94,11 +99,21 @@ internal sealed class TaskService(
             throw new TaskNotFoundException(taskId);
         }
 
+        if (task.UserId != userId)
+        {
+            throw new ForbiddenException();
+        }
+
         await taskRepository.Update(taskId, title, dueDate, isCompleted, cancellationToken);
     }
 
     public async Task DeleteTask(int taskId, string? userId, CancellationToken cancellationToken)
     {
+        if (userId is null)
+        {
+            throw new UnauthorizedException();
+        }
+        
         var task = await taskRepository.GetById(taskId, cancellationToken);
 
         if (task is null)
