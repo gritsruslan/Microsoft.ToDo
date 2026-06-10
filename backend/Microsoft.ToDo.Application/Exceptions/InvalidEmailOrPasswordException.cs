@@ -1,4 +1,4 @@
 namespace Microsoft.ToDo.Application.Exceptions;
 
-public class InvalidEmailOrPasswordException() : 
+public sealed class InvalidEmailOrPasswordException() : 
     DomainException("Invalid email or password", DomainErrorCode.Unauthorized);

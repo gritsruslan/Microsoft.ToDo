@@ -8,7 +8,10 @@ namespace Microsoft.ToDo.Application.Services;
 internal sealed class CategoryService(ICategoryRepository repository, 
     IValidator<CreateCategoryRequest> validator): ICategoryService
 {
-    public async Task<CategoryResponse> CreateCategory(CreateCategoryRequest request, string? userId, CancellationToken cancellationToken)
+    public async Task<CategoryResponse> CreateCategory(
+        CreateCategoryRequest request, 
+        string? userId, 
+        CancellationToken cancellationToken)
     {
         if (userId is null)
         {

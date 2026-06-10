@@ -6,7 +6,7 @@ using Microsoft.ToDo.Application.DTOs;
 namespace Microsoft.ToDo.API.Controllers;
 
 [ApiController]
-[Route("tasks")]
+[Route("api/tasks")]
 public sealed class TaskController(ITaskService service) : ControllerBase
 {
     [HttpPost]
@@ -27,18 +27,21 @@ public sealed class TaskController(ITaskService service) : ControllerBase
         return Ok(tasks);
     }
     
-    [HttpPut]
-    public async Task<IActionResult> UpdateTaskRequest(
-        [FromBody] UpdateTaskRequest request, CancellationToken cancellationToken)
+    [HttpPut("{taskId:int}")]
+    public async Task<IActionResult> Update(
+        [FromRoute] int taskId,
+        [FromBody] UpdateTaskRequest request, 
+        CancellationToken cancellationToken)
     {
         var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
-        await service.UpdateTask(request, userId, cancellationToken);
+        await service.UpdateTask(taskId, request, userId, cancellationToken);
         return Ok();
     }
 
-    [HttpDelete("{taskId}")]
-    public async Task<IActionResult> DeleteTask(
-        [FromRoute] int taskId, CancellationToken cancellationToken)
+    [HttpDelete("{taskId:int}")]
+    public async Task<IActionResult> Delete(
+        [FromRoute] int taskId, 
+        CancellationToken cancellationToken)
     {
         var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
         await service.DeleteTask(taskId, userId, cancellationToken);

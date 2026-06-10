@@ -12,7 +12,7 @@ public interface ITaskService
         string? userId,
         CancellationToken cancellationToken);
     
-    Task UpdateTask(UpdateTaskRequest request, string? userId, CancellationToken cancellationToken);
+    Task UpdateTask(int taskId, UpdateTaskRequest request, string? userId, CancellationToken cancellationToken);
     
     Task DeleteTask(int taskId, string? userId, CancellationToken cancellationToken);
 }

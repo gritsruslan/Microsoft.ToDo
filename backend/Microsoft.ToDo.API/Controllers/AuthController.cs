@@ -6,7 +6,7 @@ using Microsoft.ToDo.Application.DTOs;
 namespace Microsoft.ToDo.API.Controllers;
 
 [ApiController]
-[Route("auth")]
+[Route("api/auth")]
 public sealed class AuthController(IAuthService service) : ControllerBase
 {
     [HttpPost("register")]

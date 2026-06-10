@@ -31,7 +31,7 @@ internal sealed class TaskService(
         }
 
         var task = await taskRepository.Create(title, dueDate, categoryId, userId, cancellationToken);
-        return new TaskResponse(task.Id, task.Title, task.CategoryId);
+        return new TaskResponse(task.Id, task.Title, task.DueDate, task.IsCompleted, task.CategoryId);
     }
 
     public async Task<PagedData<TaskReadModel>> SearchTasks(
@@ -69,19 +69,20 @@ internal sealed class TaskService(
             searchQuery, categoryId, userId, skip, take, cancellationToken);
 
         var taskReadModels = tasks.Select(t =>
-            new TaskReadModel(t.Id, t.Title, t.DueDate, t.CategoryId, t.Category.Name));
+            new TaskReadModel(t.Id, t.Title, t.DueDate, t.IsCompleted, t.CategoryId, t.Category.Name));
 
         return new PagedData<TaskReadModel>(taskReadModels, totalCount, page, pageSize);
     }
 
     public async Task UpdateTask(
+        int taskId,
         UpdateTaskRequest request, 
         string? userId, 
         CancellationToken cancellationToken)
     {
         await updateTaskValidator.ValidateAndThrowAsync(request, cancellationToken);
         
-        var (taskId, title, dueDate, isCompleted) = request;
+        var (title, dueDate, isCompleted) = request;
         if (userId is null)
         {
             throw new UnauthorizedException();

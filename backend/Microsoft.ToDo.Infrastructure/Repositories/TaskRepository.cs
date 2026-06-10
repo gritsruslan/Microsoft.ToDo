@@ -60,23 +60,23 @@ internal sealed class TaskRepository(ToDoDbContext dbContext) : ITaskRepository
         return (items, totalCount);
     }
 
-    public Task<TaskItem?> GetById(int id, CancellationToken cancellationToken) => 
-        dbContext.TaskItems.Where(t => t.Id == id).FirstOrDefaultAsync(cancellationToken);
+    public Task<TaskItem?> GetById(int taskId, CancellationToken cancellationToken) => 
+        dbContext.TaskItems.Where(t => t.Id == taskId).FirstOrDefaultAsync(cancellationToken);
 
     public Task Update(
-        int id, 
+        int taskId, 
         string title, 
         DateTimeOffset? dueDate, 
         bool isCompleted, 
         CancellationToken cancellationToken)
     {
-        return dbContext.TaskItems.Where(t => t.Id == id)
+        return dbContext.TaskItems.Where(t => t.Id == taskId)
             .ExecuteUpdateAsync(s =>
             s.SetProperty(t => t.Title, title)
                 .SetProperty(t => t.DueDate, dueDate)
                 .SetProperty(t => t.IsCompleted, isCompleted), cancellationToken);
     }
 
-    public Task Delete(int id, CancellationToken cancellationToken) => 
-        dbContext.TaskItems.Where(t => t.Id == id).ExecuteDeleteAsync(cancellationToken);
+    public Task Delete(int taskId, CancellationToken cancellationToken) => 
+        dbContext.TaskItems.Where(t => t.Id == taskId).ExecuteDeleteAsync(cancellationToken);
 }
