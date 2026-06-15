@@ -10,24 +10,85 @@
 
         <div class="mb-3">
           <label class="form-label">Email</label>
-          <input formControlName="email" type="email" class="form-control" placeholder="Enter email">
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control"
+            placeholder="Enter email"
+            [class.is-invalid]="form.controls.email.touched && form.controls.email.invalid"
+          >
+
+          @if(form.controls.email.touched && form.controls.email.invalid) {
+            <div class="invalid-feedback d-block">
+              @if(form.controls.email.hasError('required')) {
+                <div>Email is required</div>
+              }
+              @if(form.controls.email.hasError('email')) {
+                <div>Email is invalid</div>
+              }
+            </div>
+          }
         </div>
 
         <div class="mb-3">
           <label class="form-label">Password</label>
-          <input formControlName="password" type="password" class="form-control" placeholder="Enter password">
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder="Enter password"
+            [class.is-invalid]="form.controls.password.touched && form.controls.password.invalid"
+          >
+
+          @if(form.controls.password.touched && form.controls.password.invalid) {
+            <div class="invalid-feedback d-block">
+              @if(form.controls.password.hasError('required')) {
+                <div>Password is required</div>
+              }
+              @if(form.controls.password.hasError('minlength')) {
+                <div>Password must be at least 6 characters</div>
+              }
+              @if(form.controls.password.hasError('maxLength')) {
+                <div>Password must be at most 30 characters</div>
+              }
+              @if(form.controls.password.hasError('pattern')) {
+                <div>Password must contain at least one lowercase letter and one number</div>
+              }
+            </div>
+          }
         </div>
 
-        @if (validationErrors.length) {
+        <div class="mb-3">
+          <label class="form-label">Confirm password</label>
+          <input
+            formControlName="confirmPassword"
+            type="password"
+            class="form-control"
+            placeholder="Enter password"
+            [class.is-invalid]="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid"
+          >
+          @if(form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid) {
+            <div class="invalid-feedback d-block">
+              @if(form.controls.confirmPassword.hasError('required')) {
+                <div>Confirm password is required</div>
+              }
+              @if(form.hasError('passwordMismatch')) {
+                <div>Passwords do not match</div>
+              }
+            </div>
+          }
+        </div>
+
+        @if (apiErrors.length) {
           <div class="alert alert-danger">
-            @for (err of validationErrors; track err) {
+            @for (err of apiErrors; track err) {
               <div>{{ err }}</div>
             }
           </div>
         }
 
-        <button type="submit" class="btn btn-primary w-100">
-          Register
+        <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid || isRegistering">
+          {{isRegistering ? 'Registering...' : 'Register'}}
         </button>
 
       </form>
