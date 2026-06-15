@@ -6,12 +6,14 @@ import {RegisterRequest} from '../interfaces/register-request';
   providedIn: 'root'
 })
 export class AuthService {
-
-  httpClient = inject(HttpClient)
-
-  baseApiUrl = 'http://localhost:5284/api/auth'
+  private httpClient = inject(HttpClient)
+  private baseApiUrl = 'http://localhost:5284/api/auth'
 
   register(request: RegisterRequest) {
     return this.httpClient.post<void>(`${this.baseApiUrl}/register`, request)
+  }
+
+  login(request: RegisterRequest) {
+    return this.httpClient.post<void>(`${this.baseApiUrl}/login`, request)
   }
 }

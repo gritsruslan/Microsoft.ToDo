@@ -8,20 +8,21 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {catchError, throwError} from 'rxjs';
 
 @Component({
   selector: 'app-register',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  authService = inject(AuthService);
-  router = inject(Router);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   apiErrors: string[] = [];
   isRegistering = false;
@@ -62,6 +63,7 @@ export class RegisterComponent {
         return throwError(() => err)
       })
     ).subscribe(() => {
+      this.isRegistering = false;
       this.router.navigate(['/'])
     });
   }
