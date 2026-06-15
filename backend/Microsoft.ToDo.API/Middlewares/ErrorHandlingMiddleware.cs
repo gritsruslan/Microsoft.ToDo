@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.ToDo.API.Extensions;
 using Microsoft.ToDo.Application.Exceptions;
 
 namespace Microsoft.ToDo.API.Middlewares;
@@ -29,15 +30,17 @@ internal sealed class ErrorHandlingMiddleware(
                     break;
                 case ValidationException validationException:
                 {
-                    var errors = validationException.Errors.Select(e => e.ErrorMessage).ToArray();
-                    
                     problemDetails = problemDetailsFactory.CreateProblemDetails(
                         httpContext,
                         StatusCodes.Status400BadRequest,
-                        "Validation failed"
-                    );
+                        "Validation failed");
 
-                    problemDetails.Extensions["errors"] = errors;
+                    problemDetails.Extensions["errors"] =
+                        validationException.Errors
+                            .GroupBy(e => e.PropertyName)
+                            .ToDictionary(
+                                g => g.Key.ToLowerFirst(),
+                                g => g.Select(e => e.ErrorMessage).ToArray());
                     break;
                 }
                 default:

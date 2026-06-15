@@ -30,7 +30,7 @@ internal sealed class AuthService(
         var result = await userManager.CreateAsync(user, password);
         if (!result.Succeeded)
         {
-            throw new ValidationException(result.Errors.Select(e => new ValidationFailure(e.Code, e.Description)));
+            throw new DomainException(result.Errors.First().Description);
         }
 
         return jwtGenerator.GenerateAccessToken(user);
