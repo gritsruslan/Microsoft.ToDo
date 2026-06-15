@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.ToDo.Application.Abstraction;
 using Microsoft.ToDo.Domain.Models;

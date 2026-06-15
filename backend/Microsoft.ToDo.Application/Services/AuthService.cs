@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.ToDo.Application.Abstraction;
 using Microsoft.ToDo.Application.DTOs;
@@ -29,7 +30,7 @@ internal sealed class AuthService(
         var result = await userManager.CreateAsync(user, password);
         if (!result.Succeeded)
         {
-            throw new DomainException(result.Errors.First().Description);
+            throw new ValidationException(result.Errors.Select(e => new ValidationFailure(e.Code, e.Description)));
         }
 
         return jwtGenerator.GenerateAccessToken(user);

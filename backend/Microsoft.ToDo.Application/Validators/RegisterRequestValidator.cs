@@ -21,8 +21,6 @@ internal sealed class RegisterRequestValidator : AbstractValidator<RegisterReque
             .WithMessage($"Password must be at least {SecurityConstants.PasswordMinLength} characters long.")
             .MaximumLength(SecurityConstants.PasswordMaxLength)
             .WithMessage($"Password must be at most {SecurityConstants.PasswordMaxLength} characters long.")
-            .Must(p => p.Any(char.IsUpper))
-            .WithMessage("Password must contain at least one uppercase letter.")
             .Must(p => p.Any(char.IsLower))
             .WithMessage("Password must contain at least one lowercase letter.")
             .Must(p => p.Any(char.IsDigit))

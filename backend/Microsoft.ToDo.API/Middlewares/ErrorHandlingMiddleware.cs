@@ -29,19 +29,15 @@ internal sealed class ErrorHandlingMiddleware(
                     break;
                 case ValidationException validationException:
                 {
-                    var modelStateDictionary = new ModelStateDictionary();
+                    var errors = validationException.Errors.Select(e => e.ErrorMessage).ToArray();
                     
-                    foreach (var error in validationException.Errors)
-                    {
-                        modelStateDictionary.AddModelError(error.PropertyName, error.ErrorMessage);
-                    }
-
-                    problemDetails = problemDetailsFactory.CreateValidationProblemDetails(
+                    problemDetails = problemDetailsFactory.CreateProblemDetails(
                         httpContext,
-                        modelStateDictionary,
                         StatusCodes.Status400BadRequest,
-                        "Validation failed");
+                        "Validation failed"
+                    );
 
+                    problemDetails.Extensions["errors"] = errors;
                     break;
                 }
                 default:
