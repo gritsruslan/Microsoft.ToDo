@@ -59,6 +59,7 @@ export class RegisterComponent {
     this.authService.register(this.form.getRawValue()).pipe(
       catchError(err => {
         console.error(err)
+        this.isRegistering = false;
         this.apiErrors = [err.error.title ?? "Failed to register"];
         return throwError(() => err)
       })
