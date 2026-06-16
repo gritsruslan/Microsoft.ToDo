@@ -14,6 +14,11 @@ internal sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder
             .Property(c => c.Id)
             .ValueGeneratedOnAdd();
+        
+        builder
+            .Property(c => c.CreatedAt)
+            .HasDefaultValueSql("SYSDATETIMEOFFSET()")
+            .ValueGeneratedOnAdd();
 
         builder
             .Property(c => c.Name)

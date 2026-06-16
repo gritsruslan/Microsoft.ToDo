@@ -8,6 +8,8 @@ public sealed class Category
     
     public required string UserId { get; set; }
     
+    public DateTimeOffset CreatedAt { get; set; }
+    
     public required ApplicationUser User { get; set; }
     
     public ICollection<TaskItem> TaskItems { get; set; } = [];

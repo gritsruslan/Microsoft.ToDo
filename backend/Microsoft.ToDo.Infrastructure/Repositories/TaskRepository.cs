@@ -53,6 +53,7 @@ internal sealed class TaskRepository(ToDoDbContext dbContext) : ITaskRepository
         var totalCount = await query.CountAsync(cancellationToken);
         var items = await query
             .Include(t => t.Category)
+            .OrderByDescending(t => t.CreatedAt)
             .Skip(skip).Take(take)
             .ToListAsync(cancellationToken);
 

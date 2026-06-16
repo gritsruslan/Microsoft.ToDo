@@ -27,5 +27,6 @@ internal sealed class CategoryRepository(ToDoDbContext dbContext) : ICategoryRep
         string userId, CancellationToken cancellationToken) =>
         await dbContext.Categories
             .Where(c => c.UserId == userId)
+            .OrderByDescending(c => c.CreatedAt)
             .ToListAsync(cancellationToken);
 }

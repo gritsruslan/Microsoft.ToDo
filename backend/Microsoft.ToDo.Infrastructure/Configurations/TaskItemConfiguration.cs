@@ -16,6 +16,11 @@ internal sealed class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
             .ValueGeneratedOnAdd();
         
         builder
+            .Property(c => c.CreatedAt)
+            .HasDefaultValueSql("SYSDATETIMEOFFSET()")
+            .ValueGeneratedOnAdd();
+        
+        builder
             .Property(t => t.Title)
             .HasMaxLength(TaskItemConstants.TitleMaxLength);
 

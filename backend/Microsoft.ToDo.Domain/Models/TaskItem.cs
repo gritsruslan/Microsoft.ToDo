@@ -8,6 +8,8 @@ public sealed class TaskItem
     
     public bool IsCompleted { get; set; }
     
+    public DateTimeOffset CreatedAt { get; set; }
+    
     public DateTimeOffset? DueDate { get; set; }
 
     public required string UserId { get; set; }
