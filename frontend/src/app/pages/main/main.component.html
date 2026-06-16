@@ -1,1 +1,7 @@
-Main page
+<app-category-create></app-category-create>
+
+<app-category-list
+  [categories]="categoryService.categories"
+  [isLoading]="isLoadingCategories"
+  [isError]="isErrorLoadingCategories">
+</app-category-list>
