@@ -87,7 +87,7 @@ internal sealed class TaskService(
     {
         await updateTaskValidator.ValidateAndThrowAsync(request, cancellationToken);
         
-        var (title, dueDate, isCompleted) = request;
+        var (title, dueDate, isCompleted, categoryId) = request;
         if (userId is null)
         {
             throw new UnauthorizedException();
@@ -99,12 +99,26 @@ internal sealed class TaskService(
             throw new TaskNotFoundException(taskId);
         }
 
+        if (task.CategoryId != categoryId)
+        {
+            var category = await categoryRepository.GetById(categoryId, cancellationToken);
+            if (category is null)
+            {
+                throw new CategoryNotFoundException(categoryId);
+            }
+
+            if (category.UserId != userId)
+            {
+                throw new ForbiddenException();
+            }
+        }
+
         if (task.UserId != userId)
         {
             throw new ForbiddenException();
         }
 
-        await taskRepository.Update(taskId, title, dueDate, isCompleted, cancellationToken);
+        await taskRepository.Update(taskId, title, dueDate, isCompleted, categoryId, cancellationToken);
     }
 
     public async Task DeleteTask(int taskId, string? userId, CancellationToken cancellationToken)

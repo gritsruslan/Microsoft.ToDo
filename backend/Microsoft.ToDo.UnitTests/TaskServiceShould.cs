@@ -197,9 +197,18 @@ public class TaskServiceShould
             r.GetById(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => null);
 
+        _categoryRepositoryMock.Setup(r => r.GetById(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Category
+            {
+                Id = 1,
+                Name = "Work",
+                UserId = null!,
+                User = null!
+            });
+        
         await _taskService.Invoking(s => s.UpdateTask(
                 1,
-                new UpdateTaskRequest("Task", null, true),
+                new UpdateTaskRequest("Task", null, true, 1),
                 "user",
                 CancellationToken.None))
             .Should()
@@ -220,14 +229,22 @@ public class TaskServiceShould
                 Category = null!,
             });
 
+        _categoryRepositoryMock.Setup(r => r.GetById(1, It.IsAny<CancellationToken>())).ReturnsAsync(
+            new Category
+            {
+                Name = "category",
+                UserId = "user",
+                User = null!
+            });
+
         await _taskService.UpdateTask(
             1,
-            new UpdateTaskRequest("Updated", null, true),
+            new UpdateTaskRequest("Updated", null, true, 1),
             "user",
             CancellationToken.None);
 
         _taskRepositoryMock.Verify(r => r.Update(1, "Updated", null, 
-            true, It.IsAny<CancellationToken>()), Times.Once);
+            true, 1, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]

@@ -21,7 +21,7 @@ public interface ITaskRepository
     
     Task<TaskItem?> GetById(int taskId, CancellationToken cancellationToken);
 
-    Task Update(int taskId, string title, DateTimeOffset? dueDate, bool isCompleted,
+    Task Update(int taskId, string title, DateTimeOffset? dueDate, bool isCompleted, int categoryId,
         CancellationToken cancellationToken);
     
     Task Delete(int taskId, CancellationToken cancellationToken);

@@ -6,7 +6,7 @@ public interface ICategoryRepository
 {
     Task<Category> Create(string name, string userId, CancellationToken cancellationToken);
     
-    Task<Category?> GetById(int taskId, CancellationToken cancellationToken);
+    Task<Category?> GetById(int categoryId, CancellationToken cancellationToken);
     
     Task<IEnumerable<Category>> GetAllByUser(string userId, CancellationToken cancellationToken);
 }

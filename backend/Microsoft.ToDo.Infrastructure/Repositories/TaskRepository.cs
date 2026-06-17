@@ -67,14 +67,16 @@ internal sealed class TaskRepository(ToDoDbContext dbContext) : ITaskRepository
         int taskId, 
         string title, 
         DateTimeOffset? dueDate, 
-        bool isCompleted, 
+        bool isCompleted,
+        int categoryId,
         CancellationToken cancellationToken)
     {
         return dbContext.TaskItems.Where(t => t.Id == taskId)
             .ExecuteUpdateAsync(s =>
             s.SetProperty(t => t.Title, title)
                 .SetProperty(t => t.DueDate, dueDate)
-                .SetProperty(t => t.IsCompleted, isCompleted), cancellationToken);
+                .SetProperty(t => t.IsCompleted, isCompleted)
+                .SetProperty(t => t.CategoryId, categoryId), cancellationToken);
     }
 
     public Task Delete(int taskId, CancellationToken cancellationToken) => 

@@ -20,8 +20,8 @@ internal sealed class CategoryRepository(ToDoDbContext dbContext) : ICategoryRep
         return category.Entity;
     }
 
-    public Task<Category?> GetById(int taskId, CancellationToken cancellationToken) => 
-        dbContext.Categories.Where(c => c.Id == taskId).FirstOrDefaultAsync(cancellationToken);
+    public Task<Category?> GetById(int categoryId, CancellationToken cancellationToken) => 
+        dbContext.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync(cancellationToken);
 
     public async Task<IEnumerable<Category>> GetAllByUser(
         string userId, CancellationToken cancellationToken) =>
