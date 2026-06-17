@@ -4,16 +4,24 @@
 </app-task-create>
 
 <app-task-list
-  [pagedTasks]="taskService.pagedTasks"
+  [pagedTasks]="pagedTasks"
   [isLoading]="isLoadingTasks"
   [isError]="isErrorLoadingTasks"
   [categoryName]="categoryName"
-  (refresh)="loadTasks()"
->
+  (deleted)="onDelete($event)"
+  (edit)="onEdit($event)"
+  (toggle)="onToggle($event)">
 </app-task-list>
+
+<app-edit-task-modal
+  [isOpen]="isEditOpen"
+  [task]="selectedTask"
+  (close)="closeEdit()"
+  (save)="onSaveTask($event)">
+</app-edit-task-modal>
 
 <app-pagination
   [page]="currentPage"
-  [totalPages]="taskService.pagedTasks?.totalPages ?? 1"
+  [totalPages]="pagedTasks?.totalPages ?? 1"
   (pageChange)="onPageChange($event)">
 </app-pagination>

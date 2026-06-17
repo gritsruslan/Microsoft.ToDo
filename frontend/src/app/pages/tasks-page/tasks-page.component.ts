@@ -1,55 +1,72 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {TaskService} from '../../services/task.service';
-import {TaskCreateComponent} from './task-create/task-create.component';
-import {TaskListComponent} from './task-list/task-list.component';
-import {CategoryService} from '../../services/category.service';
-import {PaginationComponent} from '../../common-ui/pagination/pagination.component';
+import { TaskService } from '../../services/task.service';
+import { CategoryService } from '../../services/category.service';
+
+import { Task } from '../../interfaces/task';
+import { PagedData } from '../../interfaces/paged-data';
+
+import { TaskCreateComponent } from './task-create/task-create.component';
+import { TaskListComponent } from './task-list/task-list.component';
+import { PaginationComponent } from '../../common-ui/pagination/pagination.component';
+import { EditTaskModalComponent } from '../../common-ui/edit-task-modal/edit-task-modal.component';
 
 @Component({
   selector: 'app-tasks-page',
   imports: [
     TaskCreateComponent,
     TaskListComponent,
-    PaginationComponent
+    PaginationComponent,
+    EditTaskModalComponent
   ],
   templateUrl: './tasks-page.component.html'
 })
 export class TasksPageComponent implements OnInit {
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  taskService = inject(TaskService);
-  categoryService = inject(CategoryService);
-  currentPage: number = 1;
-  pageSize: number = 7;
+  private taskService = inject(TaskService);
+  private categoryService = inject(CategoryService);
+
+  currentPage = 1;
+  pageSize = 7;
 
   categoryId!: number;
   categoryName: string | null = null;
 
-  isLoadingTasks = true;
+  pagedTasks: PagedData<Task> | null = null;
+  isLoadingTasks = false;
   isErrorLoadingTasks = false;
 
+  selectedTask: Task | null = null;
+  isEditOpen = false;
+
   ngOnInit() {
+
     this.categoryId = Number(
       this.route.snapshot.paramMap.get('categoryId')
     );
 
     this.route.queryParamMap.subscribe(params => {
+
       this.currentPage = Number(params.get('page') ?? 1);
+
       this.loadCategory();
-      this.loadTasks(this.currentPage);
+      this.loadTasks();
     });
   }
 
-  loadTasks(page: number = 1) {
-    this.currentPage = page;
+  loadTasks() {
     this.isLoadingTasks = true;
+    this.isErrorLoadingTasks = false;
 
-    this.taskService.searchTasks(null, this.categoryId, page, this.pageSize)
+    this.taskService
+    .searchTasks(null, this.categoryId, this.currentPage, this.pageSize)
     .subscribe({
-      next: () => {
+      next: (data) => {
+        this.pagedTasks = data;
         this.isLoadingTasks = false;
       },
       error: () => {
@@ -59,16 +76,57 @@ export class TasksPageComponent implements OnInit {
     });
   }
 
-  onPageChange(page: number) {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {page},
-      queryParamsHandling: 'merge'
+  loadCategory() {
+    this.categoryService
+    .getCategoryById(this.categoryId)
+    .subscribe(c => {
+      this.categoryName = c.name;
     });
   }
 
-  loadCategory() {
-    this.categoryService.getCategoryById(this.categoryId)
-    .subscribe(c => this.categoryName = c.name);
+  onDelete(taskId: number) {
+    this.taskService.deleteTask(taskId)
+    .subscribe(() => {
+      this.loadTasks();
+    });
+  }
+
+  onEdit(task: Task) {
+    this.selectedTask = task;
+    this.isEditOpen = true;
+  }
+
+  closeEdit() {
+    this.isEditOpen = false;
+    this.selectedTask = null;
+  }
+
+  onSaveTask(updated: Task) {
+    this.taskService.updateTask(updated.id, updated)
+    .subscribe(() => {
+      this.closeEdit();
+      this.loadTasks();
+    });
+  }
+
+  onToggle(task: Task) {
+    const updated = {
+      title: task.title,
+      dueDate: task.dueDate,
+      isCompleted: !task.isCompleted
+    };
+
+    this.taskService.updateTask(task.id, updated)
+    .subscribe(() => {
+      this.loadTasks();
+    });
+  }
+
+  onPageChange(page: number) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page },
+      queryParamsHandling: 'merge'
+    });
   }
 }

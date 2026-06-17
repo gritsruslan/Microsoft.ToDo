@@ -1,15 +1,12 @@
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { Task } from '../../interfaces/task';
 import { TaskService } from '../../services/task.service';
-import {UpdateTaskRequest} from '../../interfaces/update-task-request';
-import {DatePipe, NgClass} from '@angular/common';
+import { UpdateTaskRequest } from '../../interfaces/update-task-request';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-task-card',
-  imports: [
-    DatePipe,
-    NgClass
-  ],
+  imports: [DatePipe],
   templateUrl: './task-card.component.html'
 })
 export class TaskCardComponent {
@@ -22,23 +19,15 @@ export class TaskCardComponent {
   @Input()
   showCategoryName = false;
 
-  @Output() deleted = new EventEmitter<void>();
+  @Output() deleted = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<Task>();
+  @Output() toggle = new EventEmitter<Task>();
 
   toggleCompleted() {
-    const updated : UpdateTaskRequest = {
-      title: this.task.title,
-      dueDate: this.task.dueDate,
-      isCompleted: !this.task.isCompleted
-    };
-
-    this.taskService.updateTask(this.task.id, updated)
-    .subscribe(() => {
-      this.task.isCompleted = !this.task.isCompleted;
-    });
+    this.toggle.emit(this.task);
   }
 
   deleteTask() {
-    this.taskService.deleteTask(this.task.id).subscribe(
-      () => this.deleted.emit());
+    this.deleted.emit(this.task.id);
   }
 }
