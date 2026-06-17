@@ -27,4 +27,14 @@ public sealed class CategoryController(ICategoryService service) : ControllerBas
         var categories = await service.GetAllCategories(userId, cancellationToken);
         return Ok(categories);
     }
+
+    [HttpGet("{categoryId::int}")]
+    public async Task<IActionResult> Get(
+        [FromRoute] int categoryId, 
+        CancellationToken cancellationToken)
+    {
+        var userId = AuthTokenHelper.GetUserIdClaim(HttpContext);
+        var category = await service.GetCategory(categoryId, userId, cancellationToken);
+        return Ok(category);
+    }
 }

@@ -11,4 +11,6 @@ public interface ICategoryService
     
     Task<IEnumerable<CategoryResponse>> GetAllCategories(
         string? userId, CancellationToken cancellationToken);
+    
+    Task<CategoryResponse> GetCategory(int categoryId, string? userId, CancellationToken cancellationToken);
 }
