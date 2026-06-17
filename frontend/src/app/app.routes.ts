@@ -7,6 +7,7 @@ import {AuthLayoutComponent} from './layout/auth-layout/auth-layout.component';
 import {TasksPageComponent} from './pages/tasks-page/tasks-page.component';
 import { SearchPageComponent } from './pages/search/search-tasks-page.component';
 import {MainPageComponent} from './pages/main/main-page.component';
+import {NotFoundPageComponent} from './pages/not-found/not-found-page.component';
 
 export const routes: Routes = [
   {
@@ -27,9 +28,21 @@ export const routes: Routes = [
     canActivate: [canActivateAuth]
   },
   {
-    path: '', component: AuthLayoutComponent, children: [
-      {path: 'login', component: LoginComponent},
-      {path: 'register', component: RegisterComponent},
+    path: '',
+    component: AuthLayoutComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
     ]
+  },
+  {
+    path: '**',
+    component: NotFoundPageComponent
   }
 ];
