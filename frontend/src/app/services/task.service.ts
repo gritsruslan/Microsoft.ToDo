@@ -4,6 +4,7 @@ import {Task} from '../interfaces/task';
 import {tap} from 'rxjs';
 import {PagedData} from '../interfaces/paged-data';
 import {CreateTaskRequest} from '../interfaces/create-task-request';
+import {UpdateTaskRequest} from '../interfaces/update-task-request';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,13 @@ export class TaskService {
 
   createTask(request: CreateTaskRequest) {
     return this.httpClient.post<void>(`${this.baseApiUrl}`, request, { withCredentials: true });
+  }
+
+  updateTask(taskId: number, request: UpdateTaskRequest) {
+    return this.httpClient.put(`${this.baseApiUrl}/${taskId}`, request, { withCredentials: true });
+  }
+
+  deleteTask(taskId: number) {
+    return this.httpClient.delete(`${this.baseApiUrl}/${taskId}`, { withCredentials: true });
   }
 }

@@ -4,5 +4,5 @@
   isCompleted: boolean,
   categoryId: number,
   categoryName: string,
-  dueDate: Date
+  dueDate: string | null
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import { Task } from '../../../interfaces/task';
 import { PagedData } from '../../../interfaces/paged-data';
@@ -17,4 +17,11 @@ export class TaskListComponent {
   @Input() isLoading = false;
   @Input() isError = false;
   @Input() categoryName: string | null = null;
+
+  @Output()
+  refresh = new EventEmitter<void>();
+
+  onTaskDeleted() {
+    this.refresh.emit();
+  }
 }

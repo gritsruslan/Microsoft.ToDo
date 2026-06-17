@@ -3,8 +3,13 @@
 
     <div class="d-flex flex-column">
 
-      <div class="fw-semibold">
+      <div
+        class="fw-semibold"
+        [class.text-decoration-line-through]="task.isCompleted"
+        [class.text-muted]="task.isCompleted">
+
         {{ task.title }}
+
       </div>
 
       <div class="small text-muted">
@@ -14,12 +19,13 @@
         }
 
         @if (task.dueDate) {
-
           @if (showCategoryName) {
             <span class="mx-2">•</span>
           }
 
-          <span>Due: {{ task.dueDate | date:'dd.MM.yyyy HH:mm' }}</span>
+          <span>
+            Due: {{ task.dueDate | date:'dd.MM.yyyy HH:mm' }}
+          </span>
         }
 
       </div>
@@ -30,22 +36,28 @@
 
       <button
         type="button"
-        class="btn btn-outline-success btn-sm"
-        title="Mark as completed">
-        ✓
+        class="btn btn-sm"
+        [ngClass]="task.isCompleted ? 'btn-success' : 'btn-outline-success'"
+        (click)="toggleCompleted()">
+
+        @if (task.isCompleted) {
+          ✓ Done
+        } @else {
+          ✓
+        }
+
       </button>
 
       <button
         type="button"
-        class="btn btn-outline-primary btn-sm"
-        title="Edit task">
+        class="btn btn-outline-primary btn-sm">
         Edit
       </button>
 
       <button
         type="button"
         class="btn btn-outline-danger btn-sm"
-        title="Delete task">
+        (click)="deleteTask()">
         Delete
       </button>
 

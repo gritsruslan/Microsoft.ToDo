@@ -24,7 +24,8 @@
           @for (task of pagedTasks.items; track task.id) {
             <app-task-card
               [task]="task"
-              [showCategoryName]="false">
+              [showCategoryName]="false"
+              (deleted)="onTaskDeleted()">
             </app-task-card>
           }
         </div>

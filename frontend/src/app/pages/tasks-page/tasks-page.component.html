@@ -8,5 +8,6 @@
   [isLoading]="isLoadingTasks"
   [isError]="isErrorLoadingTasks"
   [categoryName]="categoryName"
+  (refresh)="loadTasks()"
 >
 </app-task-list>
