@@ -8,10 +8,10 @@ import { Task } from '../../interfaces/task';
 import { PagedData } from '../../interfaces/paged-data';
 
 import { TaskCreateComponent } from './task-create/task-create.component';
-import { TaskListComponent } from './task-list/task-list.component';
 import { PaginationComponent } from '../../common-ui/pagination/pagination.component';
 import { EditTaskModalComponent } from '../../common-ui/edit-task-modal/edit-task-modal.component';
 import {CreateTaskRequest} from '../../interfaces/create-task-request';
+import {TaskListComponent} from '../../common-ui/task-list/task-list.component';
 
 @Component({
   selector: 'app-tasks-page',
@@ -128,13 +128,12 @@ export class TasksPageComponent implements OnInit {
   }
 
   onToggle(task: Task) {
-    const updated = {
+    this.taskService.updateTask(task.id, {
       title: task.title,
       dueDate: task.dueDate,
-      isCompleted: !task.isCompleted
-    };
-
-    this.taskService.updateTask(task.id, updated)
+      isCompleted: task.isCompleted,
+      categoryId: task.categoryId
+    })
     .subscribe(() => {
       this.loadTasks();
     });

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {PagedData} from '../../../interfaces/paged-data';
-import {TaskCardComponent} from '../../../common-ui/task-card/task-card.component';
-import {Task} from '../../../interfaces/task';
+import {PagedData} from '../../interfaces/paged-data';
+import {TaskCardComponent} from '../task-card/task-card.component';
+import {Task} from '../../interfaces/task';
 
 @Component({
   selector: 'app-task-list',
@@ -15,6 +15,7 @@ export class TaskListComponent {
   @Input() isLoading = false;
   @Input() isError = false;
   @Input() categoryName: string | null = null;
+  @Input() showCategoryName: boolean = false;
 
   @Output() deleted = new EventEmitter<number>();
   @Output() edit = new EventEmitter<Task>();

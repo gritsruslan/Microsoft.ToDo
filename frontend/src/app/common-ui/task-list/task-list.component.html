@@ -38,7 +38,7 @@
           @for (task of pagedTasks.items; track task.id) {
             <app-task-card
               [task]="task"
-              [showCategoryName]="false"
+              [showCategoryName]="showCategoryName"
               (deleted)="onTaskDeleted($event)"
               (edit)="onTaskEdit($event)"
               (toggle)="onTaskToggle($event)">

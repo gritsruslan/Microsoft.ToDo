@@ -11,9 +11,9 @@ import {CategoryListComponent} from './category-list/category-list.component';
     CategoryCreateComponent,
     CategoryListComponent
   ],
-  templateUrl: './main.component.html'
+  templateUrl: './main-page.component.html'
 })
-export class MainComponent {
+export class MainPageComponent {
 
   categoryService = inject(CategoryService);
 

@@ -1,0 +1,27 @@
+<app-search-form
+  (search)="onSearch($event)">
+</app-search-form>
+
+<app-task-list
+  [pagedTasks]="pagedTasks"
+  [isLoading]="isLoading"
+  [isError]="isError"
+  [showCategoryName]="true"
+
+  (deleted)="onDelete($event)"
+  (edit)="onEdit($event)"
+  (toggle)="onToggle($event)">
+</app-task-list>
+
+<app-edit-task-modal
+  [isOpen]="isEditOpen"
+  [task]="selectedTask"
+  (close)="closeEdit()"
+  (save)="onSaveTask($event)">
+</app-edit-task-modal>
+
+<app-pagination
+  [page]="currentPage"
+  [totalPages]="pagedTasks?.totalPages ?? 1"
+  (pageChange)="onPageChange($event)">
+</app-pagination>
