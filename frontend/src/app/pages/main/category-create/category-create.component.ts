@@ -1,7 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { CategoryService } from '../../../services/category.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-category-create',
@@ -9,29 +7,32 @@ import {finalize} from 'rxjs';
   templateUrl: './category-create.component.html',
 })
 export class CategoryCreateComponent {
-  private categoryService = inject(CategoryService);
 
-  categoryName: string = '';
+  categoryName = '';
+
+  @Input()
   error: string | null = null;
+
+  @Input()
   isLoading = false;
 
+  @Output()
+  create = new EventEmitter<string>();
+
   get isValidCategoryName() {
-    return this.categoryName.trim().length > 1 && this.categoryName.trim().length < 40;
+    return this.categoryName.trim().length >= 1
+      && this.categoryName.trim().length <= 40;
   }
 
   createCategory() {
     const name = this.categoryName.trim();
+    if (!name) {
+      return;
+    }
+    this.create.emit(name);
+  }
 
-    if (!name) return;
-
-    this.isLoading = true;
-    this.error = null;
-
-    this.categoryService.createCategory(name)
-    .pipe(finalize(() => this.isLoading = false))
-    .subscribe({
-      next: () => this.categoryName = '',
-      error: () => this.error = 'Failed to create category'
-    });
+  clear() {
+    this.categoryName = '';
   }
 }

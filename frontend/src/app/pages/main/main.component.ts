@@ -1,29 +1,62 @@
-import {Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { finalize } from 'rxjs';
+
 import { CategoryService } from '../../services/category.service';
-import {CategoryListComponent} from './category-list/category-list.component';
 import {CategoryCreateComponent} from './category-create/category-create.component';
-import {finalize} from 'rxjs';
+import {CategoryListComponent} from './category-list/category-list.component';
 
 @Component({
   selector: 'app-main',
   imports: [
-    CategoryListComponent,
-    CategoryCreateComponent
+    CategoryCreateComponent,
+    CategoryListComponent
   ],
   templateUrl: './main.component.html'
 })
 export class MainComponent {
-  categoryService = inject(CategoryService)
+
+  categoryService = inject(CategoryService);
 
   isLoadingCategories = true;
   isErrorLoadingCategories = false;
 
+  isCreatingCategory = false;
+  createCategoryError: string | null = null;
+
   ngOnInit() {
-    this.categoryService.getCategories().pipe(
+    this.loadCategories();
+  }
+
+  loadCategories() {
+
+    this.isLoadingCategories = true;
+
+    this.categoryService.getCategories()
+    .pipe(
       finalize(() => this.isLoadingCategories = false)
-    ).subscribe({
+    )
+    .subscribe({
       next: () => this.isErrorLoadingCategories = false,
       error: () => this.isErrorLoadingCategories = true
+    });
+  }
+
+  onCreateCategory(name: string) {
+
+    this.isCreatingCategory = true;
+    this.createCategoryError = null;
+
+    this.categoryService.createCategory(name)
+    .pipe(
+      finalize(() => this.isCreatingCategory = false)
+    )
+    .subscribe({
+      next: () => {
+        this.loadCategories();
+      },
+      error: () => {
+        this.createCategoryError = 'Failed to create category';
+      }
     });
   }
 }

@@ -1,6 +1,8 @@
 <app-task-create
   [categoryId]="categoryId"
-  (created)="loadTasks()">
+  [error]="createError"
+  [isCreating]="isCreatingTask"
+  (create)="onCreateTask($event)">
 </app-task-create>
 
 <app-task-list

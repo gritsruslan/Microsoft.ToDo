@@ -11,6 +11,7 @@ import { TaskCreateComponent } from './task-create/task-create.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { PaginationComponent } from '../../common-ui/pagination/pagination.component';
 import { EditTaskModalComponent } from '../../common-ui/edit-task-modal/edit-task-modal.component';
+import {CreateTaskRequest} from '../../interfaces/create-task-request';
 
 @Component({
   selector: 'app-tasks-page',
@@ -43,16 +44,16 @@ export class TasksPageComponent implements OnInit {
   selectedTask: Task | null = null;
   isEditOpen = false;
 
-  ngOnInit() {
+  createError: string | null = null;
+  isCreatingTask = false;
 
+  ngOnInit() {
     this.categoryId = Number(
       this.route.snapshot.paramMap.get('categoryId')
     );
 
     this.route.queryParamMap.subscribe(params => {
-
       this.currentPage = Number(params.get('page') ?? 1);
-
       this.loadCategory();
       this.loadTasks();
     });
@@ -72,6 +73,23 @@ export class TasksPageComponent implements OnInit {
       error: () => {
         this.isLoadingTasks = false;
         this.isErrorLoadingTasks = true;
+      }
+    });
+  }
+
+  onCreateTask(request: CreateTaskRequest) {
+    this.createError = null;
+    this.isCreatingTask = true;
+
+    this.taskService.createTask(request)
+    .subscribe({
+      next: () => {
+        this.isCreatingTask = false;
+        this.loadTasks();
+      },
+      error: () => {
+        this.isCreatingTask = false;
+        this.createError = 'Failed to create task';
       }
     });
   }

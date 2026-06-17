@@ -1,4 +1,8 @@
-<app-category-create></app-category-create>
+<app-category-create
+  [isLoading]="isCreatingCategory"
+  [error]="createCategoryError"
+  (create)="onCreateCategory($event)">
+</app-category-create>
 
 <app-category-list
   [categories]="categoryService.categories"

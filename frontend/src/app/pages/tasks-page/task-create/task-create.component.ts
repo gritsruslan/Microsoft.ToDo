@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../../services/task.service';
+import {CreateTaskRequest} from '../../../interfaces/create-task-request';
 
 @Component({
   selector: 'app-task-create',
@@ -12,13 +13,15 @@ export class TaskCreateComponent {
   @Input({ required: true })
   categoryId!: number;
 
-  @Output()
-  created = new EventEmitter<void>();
-
-  private taskService = inject(TaskService);
-
-  isCreating = false;
+  @Input()
   error: string | null = null;
+
+  @Input()
+  isCreating = false;
+
+  @Output()
+  create = new EventEmitter<CreateTaskRequest>();
+
 
   form = new FormGroup({
     title: new FormControl('', {
@@ -35,32 +38,12 @@ export class TaskCreateComponent {
       return;
     }
 
-    this.isCreating = true;
-    this.error = null;
-
     const value = this.form.getRawValue();
 
-    this.taskService.createTask({
+    this.create.emit({
       title: value.title.trim(),
       categoryId: this.categoryId,
       dueDate: value.dueDate
-    })
-    .subscribe({
-      next: () => {
-
-        this.form.reset({
-          title: '',
-          dueDate: null
-        });
-
-        this.isCreating = false;
-
-        this.created.emit();
-      },
-      error: () => {
-        this.error = 'Failed to create task';
-        this.isCreating = false;
-      }
     });
   }
 }
