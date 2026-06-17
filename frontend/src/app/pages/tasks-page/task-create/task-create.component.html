@@ -5,23 +5,57 @@
 
     <div class="card-body p-3">
 
-      <div class="d-flex gap-2">
+      <form
+        [formGroup]="form"
+        (ngSubmit)="createTask()">
 
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="title"
-          placeholder="Enter a title for the new task">
+        <div class="d-flex gap-2">
 
-        <button
-          type="button"
-          class="btn btn-primary px-4">
-          Create
-        </button>
+          <input
+            formControlName="title"
+            type="text"
+            class="form-control"
+            placeholder="Enter a title for the new task">
 
-      </div>
+          <input
+            formControlName="dueDate"
+            type="datetime-local"
+            class="form-control"
+            style="max-width: 250px;">
+
+          <button
+            type="submit"
+            class="btn btn-primary px-4"
+            [disabled]="form.invalid || isCreating">
+
+            {{ isCreating ? 'Creating...' : 'Create' }}
+
+          </button>
+
+        </div>
+
+        @if (form.controls.title.touched && form.controls.title.hasError('required')
+          ) {
+          <div class="text-danger small mt-2">
+            Title is required
+          </div>
+        }
+
+        @if (form.controls.title.touched && form.controls.title.hasError('maxlength')
+          ) {
+          <div class="text-danger small mt-2">
+            Title is too long
+          </div>
+        }
+
+        @if (error) {
+          <div class="text-danger small mt-2">
+            {{ error }}
+          </div>
+        }
+
+      </form>
 
     </div>
-
   </div>
 </div>

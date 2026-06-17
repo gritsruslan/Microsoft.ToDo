@@ -1,7 +1,6 @@
 <div class="card shadow-sm mb-2">
   <div class="card-body d-flex align-items-center justify-content-between">
 
-    <!-- Left side -->
     <div class="d-flex flex-column">
 
       <div class="fw-semibold">
@@ -12,10 +11,16 @@
 
         @if (showCategoryName) {
           <span>{{ task.categoryName }}</span>
-          <span class="mx-2">•</span>
         }
 
-        <span>Due: {{ task.dueDate | date:'dd.MM.yyyy' }}</span>
+        @if (task.dueDate) {
+
+          @if (showCategoryName) {
+            <span class="mx-2">•</span>
+          }
+
+          <span>Due: {{ task.dueDate | date:'dd.MM.yyyy HH:mm' }}</span>
+        }
 
       </div>
 

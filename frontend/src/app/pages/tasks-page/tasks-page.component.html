@@ -1,7 +1,12 @@
-<app-task-create />
+<app-task-create
+  [categoryId]="categoryId"
+  (created)="loadTasks()">
+</app-task-create>
 
 <app-task-list
   [pagedTasks]="taskService.pagedTasks"
   [isLoading]="isLoadingTasks"
-  [isError]="isErrorLoadingTasks">
+  [isError]="isErrorLoadingTasks"
+  [categoryName]="categoryName"
+>
 </app-task-list>

@@ -16,4 +16,5 @@ export class TaskListComponent {
   @Input() pagedTasks: PagedData<Task> | null = null;
   @Input() isLoading = false;
   @Input() isError = false;
+  @Input() categoryName: string | null = null;
 }

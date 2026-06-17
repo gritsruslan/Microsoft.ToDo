@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Task} from '../interfaces/task';
 import {tap} from 'rxjs';
 import {PagedData} from '../interfaces/paged-data';
+import {CreateTaskRequest} from '../interfaces/create-task-request';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class TaskService {
     ).pipe(
       tap(t => this.pagedTasks = t)
     );
+  }
+
+  createTask(request: CreateTaskRequest) {
+    return this.httpClient.post<void>(`${this.baseApiUrl}`, request, { withCredentials: true });
   }
 }

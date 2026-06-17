@@ -19,6 +19,10 @@ export class CategoryService {
     )
   }
 
+  getCategoryById(id: number) {
+    return this.httpClient.get<Category>(`${this.baseApiUrl}/${id}`, {withCredentials: true})
+  }
+
   createCategory(name: string) {
     return this.httpClient.post<Category>(`${this.baseApiUrl}?name=${name}`, {}, {withCredentials: true})
     .pipe(
