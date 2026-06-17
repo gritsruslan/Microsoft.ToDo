@@ -5,6 +5,7 @@ import {LoginComponent} from './pages/login/login.component';
 import {canActivateAuth} from './guards/auth.gruard';
 import {MainLayoutComponent} from './layout/main-layout/main-layout.component';
 import {AuthLayoutComponent} from './layout/auth-layout/auth-layout.component';
+import {TasksPageComponent} from './pages/tasks-page/tasks-page.component';
 
 export const routes: Routes = [
   {
@@ -12,6 +13,10 @@ export const routes: Routes = [
       {
         path: '',
         component: MainComponent,
+      },
+      {
+        path: 'categories/:categoryId',
+        component: TasksPageComponent,
       }
     ],
     canActivate: [canActivateAuth]

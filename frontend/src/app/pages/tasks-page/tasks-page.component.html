@@ -1,0 +1,7 @@
+<app-task-create />
+
+<app-task-list
+  [pagedTasks]="taskService.pagedTasks"
+  [isLoading]="isLoadingTasks"
+  [isError]="isErrorLoadingTasks">
+</app-task-list>
