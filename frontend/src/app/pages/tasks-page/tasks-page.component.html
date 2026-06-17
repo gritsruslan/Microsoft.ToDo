@@ -11,3 +11,9 @@
   (refresh)="loadTasks()"
 >
 </app-task-list>
+
+<app-pagination
+  [page]="currentPage"
+  [totalPages]="taskService.pagedTasks?.totalPages ?? 1"
+  (pageChange)="onPageChange($event)">
+</app-pagination>

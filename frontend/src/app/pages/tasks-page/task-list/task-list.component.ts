@@ -4,11 +4,13 @@ import { Task } from '../../../interfaces/task';
 import { PagedData } from '../../../interfaces/paged-data';
 
 import { TaskCardComponent } from '../../../common-ui/task-card/task-card.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
   imports: [
-    TaskCardComponent
+    TaskCardComponent,
+    RouterLink
   ],
   templateUrl: './task-list.component.html'
 })
