@@ -46,6 +46,7 @@
   <app-edit-task-modal
     [isOpen]="isEditOpen"
     [task]="selectedTask"
+    [isErrorEditing]="isErrorEditingTask"
     (close)="onCloseEdit()"
     (save)="onSaveEditedTask($event)">
   </app-edit-task-modal>

@@ -28,6 +28,12 @@
               </option>
             }
           </select>
+
+          @if (isErrorEditing) {
+            <div class="text-danger small mt-2 ms-2">
+              Failed to edit the task. Please try again later.
+            </div>
+          }
         </div>
 
         <div class="modal-footer">

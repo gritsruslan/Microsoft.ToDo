@@ -43,6 +43,7 @@ export class TasksPageComponent implements OnInit {
 
   selectedTask: Task | null = null;
   isEditOpen = false;
+  isErrorEditingTask: boolean = false;
 
   createError: string | null = null;
   isCreatingTask = false;
@@ -119,15 +120,22 @@ export class TasksPageComponent implements OnInit {
   }
 
   closeEdit() {
+    this.isErrorEditingTask = false;
     this.isEditOpen = false;
     this.selectedTask = null;
   }
 
   onSaveEditedTask(edited: Task) {
     this.taskService.updateTask(edited.id, edited)
-    .subscribe(() => {
-      this.closeEdit();
-      this.loadTasks();
+    .subscribe({
+      next: () => {
+        this.isErrorEditingTask = false;
+        this.closeEdit();
+        this.loadTasks();
+      },
+      error: () => {
+        this.isErrorEditingTask = true;
+      }
     });
   }
 

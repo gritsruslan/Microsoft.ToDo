@@ -13,6 +13,7 @@ export class EditTaskModalComponent implements OnChanges {
 
   @Input() isOpen = false;
   @Input({required: true}) task!: Task;
+  @Input() isErrorEditing = false;
 
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<Task>();
@@ -51,7 +52,7 @@ export class EditTaskModalComponent implements OnChanges {
     this.save.emit({
       ...this.task,
       title: this.form.title,
-      dueDate: this.form.dueDate,
+      dueDate: this.form.dueDate?.length === 0 ? null : this.form.dueDate,
       categoryId: this.form.categoryId,
       isCompleted: this.form.isCompleted
     });

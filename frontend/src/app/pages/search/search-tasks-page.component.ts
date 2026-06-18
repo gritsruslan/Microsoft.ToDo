@@ -40,6 +40,7 @@ export class SearchPageComponent implements OnInit {
 
   selectedTask: Task | null = null;
   isEditOpen = false;
+  isErrorEditing: boolean = false;
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
@@ -137,9 +138,15 @@ export class SearchPageComponent implements OnInit {
       isCompleted: edited.isCompleted,
       categoryId: edited.categoryId
     })
-    .subscribe(() => {
-      this.closeEdit();
-      this.search();
+    .subscribe({
+      next: () => {
+        this.isErrorEditing = false;
+        this.closeEdit();
+        this.search();
+      },
+      error: () => {
+        this.isErrorEditing = true;
+      }
     });
   }
 }

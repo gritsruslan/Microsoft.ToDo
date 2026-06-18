@@ -1,6 +1,6 @@
 export interface UpdateTaskRequest {
   title: string;
-  dueDate?: string | null;
+  dueDate: string | null;
   isCompleted: boolean;
   categoryId: number;
 }
