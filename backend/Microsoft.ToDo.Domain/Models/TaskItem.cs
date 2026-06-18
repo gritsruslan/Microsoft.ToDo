@@ -1,5 +1,6 @@
 namespace Microsoft.ToDo.Domain.Models;
 
+// The name TaskItem was chosen to avoid a conflict with the Task class 
 public sealed class TaskItem
 {
     public int Id { get; set; }
