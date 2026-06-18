@@ -1,35 +1,34 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {PagedData} from '../../interfaces/paged-data';
 import {TaskCardComponent} from '../task-card/task-card.component';
-import {Task} from '../../interfaces/task';
+import {PagedData} from '../../interfaces/models/paged-data';
+import {Task} from '../../interfaces/models/task';
 
 @Component({
   selector: 'app-task-list',
-  imports: [TaskCardComponent, RouterLink],
+  imports: [TaskCardComponent],
   templateUrl: './task-list.component.html'
 })
 export class TaskListComponent {
 
-  @Input() pagedTasks: PagedData<Task> | null = null;
+  @Input({required: true}) pagedTasks!: PagedData<Task>;
   @Input() isLoading = false;
   @Input() isError = false;
-  @Input() categoryName: string | null = null;
   @Input() showCategoryName: boolean = false;
 
-  @Output() deleted = new EventEmitter<number>();
-  @Output() edit = new EventEmitter<Task>();
-  @Output() toggle = new EventEmitter<Task>();
+  @Output() deletedTask = new EventEmitter<number>();
+  @Output() editTask = new EventEmitter<Task>();
+  @Output() toggleIsCompleted = new EventEmitter<Task>();
 
   onTaskDeleted(id: number) {
-    this.deleted.emit(id);
+    this.deletedTask.emit(id);
   }
 
   onTaskEdit(task: Task) {
-    this.edit.emit(task);
+    this.editTask.emit(task);
   }
 
   onTaskToggle(task: Task) {
-    this.toggle.emit(task);
+    this.toggleIsCompleted.emit(task);
   }
 }

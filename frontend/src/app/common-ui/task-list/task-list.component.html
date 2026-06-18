@@ -4,25 +4,7 @@
 
     <div class="card-body">
 
-      @if (categoryName) {
-        <div class="d-flex justify-content-between align-items-center mb-3 ms-2">
-
-          <div class="fs-5 fw-semibold">
-            {{ categoryName }} tasks
-          </div>
-
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary"
-            routerLink="/">
-
-            <i class="bi bi-arrow-left"></i>
-            Back
-
-          </button>
-
-        </div>
-      }
+      <ng-content></ng-content>
 
       @if (isLoading) {
         <div class="text-center text-muted py-4">Loading...</div>

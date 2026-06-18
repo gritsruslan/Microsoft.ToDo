@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -16,10 +16,9 @@ import { AuthService } from '../../services/auth.service';
     ReactiveFormsModule,
     RouterLink
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './login-page.component.html'
 })
-export class LoginComponent {
+export class LoginPageComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 

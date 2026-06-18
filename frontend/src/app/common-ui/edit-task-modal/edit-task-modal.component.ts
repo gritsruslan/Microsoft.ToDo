@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output, OnChanges, inject} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Task } from '../../interfaces/task';
 import { CategoryService } from '../../services/category.service';
 import {AsyncPipe} from '@angular/common';
+import {Task} from '../../interfaces/models/task';
 
 @Component({
   selector: 'app-edit-task-modal',
@@ -12,12 +12,14 @@ import {AsyncPipe} from '@angular/common';
 export class EditTaskModalComponent implements OnChanges {
 
   @Input() isOpen = false;
-  @Input() task: Task | null = null;
+  @Input({required: true}) task!: Task;
 
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<Task>();
 
   private categoryService = inject(CategoryService);
+
+  categories$ = this.categoryService.getCategories();
 
   form!: {
     title: string;
@@ -25,8 +27,6 @@ export class EditTaskModalComponent implements OnChanges {
     categoryId: number;
     isCompleted: boolean;
   };
-
-  categories$ = this.categoryService.getCategories();
 
   ngOnChanges() {
     if (!this.task) return;

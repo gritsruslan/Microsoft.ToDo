@@ -4,14 +4,24 @@
 
     <div class="card-body">
 
-      <div class="fs-5 fw-semibold mb-3 ms-2">Hi user! Here are the categories for your tasks : </div>
+      <div class="d-flex justify-content-between align-items-center mb-3 ms-2">
 
-      @if(isLoading) {
-        <div class="text-center text-muted py-4">
-          Loading...
+        <div class="fs-5 fw-semibold">
+          Hi user! Here are the categories for your tasks :
         </div>
-      }
-      @else if(isError) {
+
+        <button
+          type="button"
+          class="btn btn-sm btn-primary"
+          routerLink="/search">
+
+          <i class="bi bi-search"></i>
+          Search Tasks
+        </button>
+
+      </div>
+
+      @if(isError) {
         <div class="text-center text-danger py-4">
           Failed to load categories
         </div>

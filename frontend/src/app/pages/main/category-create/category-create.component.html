@@ -14,9 +14,12 @@
 
         <button
           type="button"
-          class="btn btn-primary px-4"
+          class="btn btn-primary px-4 d-flex align-items-center justify-content-center"
           (click)="createCategory()"
           [disabled]="isLoading || !isValidCategoryName">
+
+          <i class="bi bi-plus-circle me-1"></i>
+
           {{ isLoading ? 'Creating...' : 'Create' }}
         </button>
 

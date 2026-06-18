@@ -8,16 +8,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class CategoryCreateComponent {
 
+  @Input() error: string | null = null;
+  @Input() isLoading = false;
+
+  @Output() create = new EventEmitter<string>();
+
   categoryName = '';
-
-  @Input()
-  error: string | null = null;
-
-  @Input()
-  isLoading = false;
-
-  @Output()
-  create = new EventEmitter<string>();
 
   get isValidCategoryName() {
     return this.categoryName.trim().length >= 1
@@ -30,9 +26,5 @@ export class CategoryCreateComponent {
       return;
     }
     this.create.emit(name);
-  }
-
-  clear() {
-    this.categoryName = '';
   }
 }

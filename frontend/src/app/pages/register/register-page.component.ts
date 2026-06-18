@@ -17,10 +17,9 @@ import {catchError, throwError} from 'rxjs';
     ReactiveFormsModule,
     RouterLink
   ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  templateUrl: './register-page.component.html'
 })
-export class RegisterComponent {
+export class RegisterPageComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
@@ -49,7 +48,7 @@ export class RegisterComponent {
       nonNullable: true,
       validators: [Validators.required]
     })
-  }, { validators: [RegisterComponent.validatePasswordsMatch] })
+  }, { validators: [RegisterPageComponent.validatePasswordsMatch] })
 
   onSubmit() {
     if(!this.form.valid) return;

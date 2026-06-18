@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { Task } from '../../interfaces/task';
-import { TaskService } from '../../services/task.service';
-import { UpdateTaskRequest } from '../../interfaces/update-task-request';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import {Task} from '../../interfaces/models/task';
 
 @Component({
   selector: 'app-task-card',
@@ -10,14 +8,8 @@ import { DatePipe } from '@angular/common';
   templateUrl: './task-card.component.html'
 })
 export class TaskCardComponent {
-
-  private taskService = inject(TaskService);
-
-  @Input({ required: true })
-  task!: Task;
-
-  @Input()
-  showCategoryName = false;
+  @Input({ required: true }) task!: Task;
+  @Input() showCategoryName = false;
 
   @Output() deleted = new EventEmitter<number>();
   @Output() edit = new EventEmitter<Task>();

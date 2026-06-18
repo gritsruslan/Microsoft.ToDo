@@ -1,10 +1,10 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Task} from '../interfaces/task';
 import {tap} from 'rxjs';
-import {PagedData} from '../interfaces/paged-data';
-import {CreateTaskRequest} from '../interfaces/create-task-request';
-import {UpdateTaskRequest} from '../interfaces/update-task-request';
+import {CreateTaskRequest} from '../interfaces/requests/create-task-request';
+import {UpdateTaskRequest} from '../interfaces/requests/update-task-request';
+import { PagedData } from '../interfaces/models/paged-data';
+import {Task} from '../interfaces/models/task';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,6 @@ import {UpdateTaskRequest} from '../interfaces/update-task-request';
 export class TaskService {
   httpClient = inject(HttpClient)
   baseApiUrl = 'http://localhost:5284/api/tasks'
-
-  pagedTasks: PagedData<Task> | null = null;
 
   searchTasks(query: string | null, categoryId: number | null, page: number, pageSize: number) {
 
@@ -35,8 +33,6 @@ export class TaskService {
         params,
         withCredentials: true
       }
-    ).pipe(
-      tap(t => this.pagedTasks = t)
     );
   }
 

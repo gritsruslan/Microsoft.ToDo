@@ -1,6 +1,6 @@
-import {Component, inject, Input} from '@angular/core';
-import {Category} from '../../interfaces/category';
-import {Router, RouterLink} from '@angular/router';
+import {Component, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {Category} from '../../interfaces/models/category';
 
 @Component({
   selector: 'app-category-card',
@@ -10,7 +10,5 @@ import {Router, RouterLink} from '@angular/router';
   templateUrl: './category-card.component.html'
 })
 export class CategoryCardComponent {
-  @Input() category!: Category;
-
-  private router = inject(Router);
+  @Input({required: true}) category!: Category;
 }

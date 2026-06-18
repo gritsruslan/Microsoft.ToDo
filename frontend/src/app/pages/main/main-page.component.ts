@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { finalize } from 'rxjs';
 
 import { CategoryService } from '../../services/category.service';
 import {CategoryCreateComponent} from './category-create/category-create.component';
 import {CategoryListComponent} from './category-list/category-list.component';
+import {Category} from '../../interfaces/models/category';
 
 @Component({
   selector: 'app-main',
@@ -13,10 +14,11 @@ import {CategoryListComponent} from './category-list/category-list.component';
   ],
   templateUrl: './main-page.component.html'
 })
-export class MainPageComponent {
+export class MainPageComponent implements OnInit{
 
-  categoryService = inject(CategoryService);
+  private categoryService = inject(CategoryService);
 
+  categories: Category[] | null = null;
   isLoadingCategories = true;
   isErrorLoadingCategories = false;
 
@@ -28,16 +30,19 @@ export class MainPageComponent {
   }
 
   loadCategories() {
-
     this.isLoadingCategories = true;
 
     this.categoryService.getCategories()
-    .pipe(
-      finalize(() => this.isLoadingCategories = false)
-    )
     .subscribe({
-      next: () => this.isErrorLoadingCategories = false,
-      error: () => this.isErrorLoadingCategories = true
+      next: categories => {
+        this.categories = categories;
+        this.isLoadingCategories = false;
+        this.isErrorLoadingCategories = false;
+      },
+      error: () => {
+        this.isLoadingCategories = false;
+        this.isErrorLoadingCategories = true;
+      }
     });
   }
 

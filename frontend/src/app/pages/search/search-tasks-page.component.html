@@ -2,23 +2,41 @@
   (search)="onSearch($event)">
 </app-search-form>
 
-<app-task-list
-  [pagedTasks]="pagedTasks"
-  [isLoading]="isLoading"
-  [isError]="isError"
-  [showCategoryName]="true"
+@if(pagedTasks) {
 
-  (deleted)="onDelete($event)"
-  (edit)="onEdit($event)"
-  (toggle)="onToggle($event)">
-</app-task-list>
+  <app-task-list
+    [pagedTasks]="pagedTasks"
+    [isLoading]="isLoading"
+    [isError]="isError"
+    [showCategoryName]="true"
+    (deletedTask)="onDeleteTask($event)"
+    (editTask)="onEdit($event)"
+    (toggleIsCompleted)="onToggleIsCompleted($event)">
 
-<app-edit-task-modal
-  [isOpen]="isEditOpen"
-  [task]="selectedTask"
-  (close)="closeEdit()"
-  (save)="onSaveTask($event)">
-</app-edit-task-modal>
+    <div class="d-flex justify-content-between align-items-center mb-3 ms-2">
+      <div class="fs-5 fw-semibold">
+        Search results
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        routerLink="/">
+        <i class="bi bi-house"></i>
+        Home
+      </button>
+    </div>
+  </app-task-list>
+}
+
+@if(selectedTask) {
+  <app-edit-task-modal
+    [isOpen]="isEditOpen"
+    [task]="selectedTask"
+    (close)="closeEdit()"
+    (save)="onSaveEditedTask($event)">
+  </app-edit-task-modal>
+}
 
 <app-pagination
   [page]="currentPage"

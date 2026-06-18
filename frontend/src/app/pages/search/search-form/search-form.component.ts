@@ -7,11 +7,9 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './search-form.component.html'
 })
 export class SearchFormComponent {
+  @Output() search = new EventEmitter<string>();
 
   query = '';
-
-  @Output()
-  search = new EventEmitter<string>();
 
   onSearch() {
     this.search.emit(this.query.trim());

@@ -1,17 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
 import { TaskService } from '../../services/task.service';
 import { CategoryService } from '../../services/category.service';
 
-import { Task } from '../../interfaces/task';
-import { PagedData } from '../../interfaces/paged-data';
-
 import { TaskCreateComponent } from './task-create/task-create.component';
 import { PaginationComponent } from '../../common-ui/pagination/pagination.component';
 import { EditTaskModalComponent } from '../../common-ui/edit-task-modal/edit-task-modal.component';
-import {CreateTaskRequest} from '../../interfaces/create-task-request';
 import {TaskListComponent} from '../../common-ui/task-list/task-list.component';
+import {CreateTaskRequest} from '../../interfaces/requests/create-task-request';
+import {PagedData} from '../../interfaces/models/paged-data';
+import {Task} from '../../interfaces/models/task';
 
 @Component({
   selector: 'app-tasks-page',
@@ -19,7 +18,8 @@ import {TaskListComponent} from '../../common-ui/task-list/task-list.component';
     TaskCreateComponent,
     TaskListComponent,
     PaginationComponent,
-    EditTaskModalComponent
+    EditTaskModalComponent,
+    RouterLink
   ],
   templateUrl: './tasks-page.component.html'
 })
@@ -102,16 +102,20 @@ export class TasksPageComponent implements OnInit {
     });
   }
 
-  onDelete(taskId: number) {
+  onDeleteTask(taskId: number) {
     this.taskService.deleteTask(taskId)
     .subscribe(() => {
       this.loadTasks();
     });
   }
 
-  onEdit(task: Task) {
+  onStartEdit(task: Task) {
     this.selectedTask = task;
     this.isEditOpen = true;
+  }
+
+  onCloseEdit() {
+    this.closeEdit();
   }
 
   closeEdit() {
@@ -119,23 +123,27 @@ export class TasksPageComponent implements OnInit {
     this.selectedTask = null;
   }
 
-  onSaveTask(updated: Task) {
-    this.taskService.updateTask(updated.id, updated)
+  onSaveEditedTask(edited: Task) {
+    this.taskService.updateTask(edited.id, edited)
     .subscribe(() => {
       this.closeEdit();
       this.loadTasks();
     });
   }
 
-  onToggle(task: Task) {
+  onToggleIsCompleted(task: Task) {
+    const updated = !task.isCompleted;
+
     this.taskService.updateTask(task.id, {
-      title: task.title,
-      dueDate: task.dueDate,
-      isCompleted: task.isCompleted,
-      categoryId: task.categoryId
-    })
-    .subscribe(() => {
-      this.loadTasks();
+      ...task,
+      isCompleted: updated
+    }).subscribe(() => {
+
+      const list = this.pagedTasks?.items;
+      if (!list) return;
+
+      const t = list.find(x => x.id === task.id);
+      if (t) t.isCompleted = updated;
     });
   }
 

@@ -8,8 +8,7 @@ import {NavbarComponent} from "../../common-ui/navbar/navbar.component";
     RouterOutlet,
     NavbarComponent
   ],
-  templateUrl: './main-layout.component.html',
-  styles: ''
+  templateUrl: './main-layout.component.html'
 })
 export class MainLayoutComponent {
 }

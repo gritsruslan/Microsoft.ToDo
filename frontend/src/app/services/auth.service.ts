@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {RegisterRequest} from '../interfaces/register-request';
-import {User} from '../interfaces/user';
 import {tap} from 'rxjs';
+import {RegisterRequest} from '../interfaces/requests/login-request';
+import {User} from '../interfaces/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {tap} from 'rxjs';
 export class AuthService {
   private httpClient = inject(HttpClient)
   private baseApiUrl = 'http://localhost:5284/api/auth'
-  user: User | undefined = undefined;
+  user: User | null = null;
 
   get isAuth() {
     return !!this.user;
@@ -34,7 +34,7 @@ export class AuthService {
   logout() {
     return this.httpClient.post<void>(`${this.baseApiUrl}/logout`, {}, {withCredentials: true})
     .pipe(
-      tap(() => this.user = undefined)
+      tap(() => this.user = null)
     );
   }
 }

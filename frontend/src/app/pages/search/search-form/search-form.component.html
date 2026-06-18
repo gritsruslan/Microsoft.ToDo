@@ -10,12 +10,15 @@
           type="text"
           class="form-control"
           [(ngModel)]="query"
-          placeholder="Search tasks...">
+          placeholder="Enter the task title to search for">
         <button
           type="button"
-          class="btn btn-primary px-4"
+          class="btn btn-primary px-4 d-flex align-items-center justify-content-center"
           (click)="onSearch()">
+
+          <i class="bi bi-search me-1"></i>
           Search
+
         </button>
       </div>
     </div>

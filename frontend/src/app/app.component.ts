@@ -3,11 +3,10 @@ import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: '<router-outlet></router-outlet>',
   imports: [
     RouterOutlet
-  ],
-  styleUrl: './app.component.scss'
+  ]
 })
 export class AppComponent {
   title = 'Microsoft.ToDo';

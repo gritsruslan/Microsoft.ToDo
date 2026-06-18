@@ -4,8 +4,9 @@
   (create)="onCreateCategory($event)">
 </app-category-create>
 
-<app-category-list
-  [categories]="categoryService.categories"
-  [isLoading]="isLoadingCategories"
-  [isError]="isErrorLoadingCategories">
-</app-category-list>
+@if(categories) {
+  <app-category-list
+    [categories]="categories"
+    [isError]="isErrorLoadingCategories">
+  </app-category-list>
+}

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
-import { TaskService } from '../../../services/task.service';
-import {CreateTaskRequest} from '../../../interfaces/create-task-request';
+import {CreateTaskRequest} from '../../../interfaces/requests/create-task-request';
 
 @Component({
   selector: 'app-task-create',
@@ -10,18 +9,11 @@ import {CreateTaskRequest} from '../../../interfaces/create-task-request';
 })
 export class TaskCreateComponent {
 
-  @Input({ required: true })
-  categoryId!: number;
+  @Input({ required: true }) categoryId!: number;
+  @Input() error: string | null = null;
+  @Input() isCreating = false;
 
-  @Input()
-  error: string | null = null;
-
-  @Input()
-  isCreating = false;
-
-  @Output()
-  create = new EventEmitter<CreateTaskRequest>();
-
+  @Output() create = new EventEmitter<CreateTaskRequest>();
 
   form = new FormGroup({
     title: new FormControl('', {
