@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-center mt-3">
+  <div class="card shadow-sm w-100"
+       style="max-width: 900px; border-radius: 16px; min-height: 120px;">
+
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center mb-3 ms-2">
+
+        <div class="fs-5 fw-semibold">
+          Hi user! Here are the categories for your tasks :
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-primary"
+          routerLink="/search">
+
+          <i class="bi bi-search"></i>
+          Search Tasks
+        </button>
+
+      </div>
+
+      @if(isError) {
+        <div class="text-center text-danger py-4">
+          Failed to load categories
+        </div>
+      }
+      @else if(categories.length === 0) {
+        <div class="text-center text-muted py-4">
+          No categories yet
+        </div>
+      }
+      @else {
+        <div class="d-flex flex-column gap-2">
+          @for (category of categories; track category.id) {
+            <app-category-card [category]="category"></app-category-card>
+          }
+        </div>
+      }
+
+    </div>
+
+  </div>
+</div>

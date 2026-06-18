@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-center mt-3">
+  <div class="card shadow-sm w-100"
+       style="max-width: 900px; border-radius: 16px; min-height: 120px;">
+
+    <div class="card-body">
+
+      <ng-content></ng-content>
+
+      @if (isLoading) {
+        <div class="text-center text-muted py-4">Loading...</div>
+      }
+      @else if (isError) {
+        <div class="text-center text-danger py-4">Failed to load tasks</div>
+      }
+      @else if (!pagedTasks || pagedTasks.items.length === 0) {
+        <div class="text-center text-muted py-4">No tasks yet</div>
+      }
+      @else {
+        <div class="d-flex flex-column gap-2">
+          @for (task of pagedTasks.items; track task.id) {
+            <app-task-card
+              [task]="task"
+              [showCategoryName]="showCategoryName"
+              (deleted)="onTaskDeleted($event)"
+              (edit)="onTaskEdit($event)"
+              (toggle)="onTaskToggle($event)">
+            </app-task-card>
+          }
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

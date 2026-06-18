@@ -1,0 +1,61 @@
+# .NET
+
+bin/
+obj/
+/packages/
+
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+.nuke/temp
+
+# Test Results
+
+TestResults/
+BenchmarkDotNet.Artifacts/
+
+# Logs
+
+logs/
+*.log
+
+# Angular / Node.js
+
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.cache/
+
+.pnpm-store/
+.npm/
+.cache/
+
+coverage/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+
+src/environments/environment.development.ts
+src/environments/environment.local.ts
+
+# IDEs
+
+.idea/
+.vscode/
+.vs/
+
+riderModule.iml
+_ReSharper.Caches/
+
+# OS
+
+.DS_Store
+Thumbs.db
+Desktop.ini

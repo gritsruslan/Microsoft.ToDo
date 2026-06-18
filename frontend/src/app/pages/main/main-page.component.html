@@ -1,0 +1,12 @@
+<app-category-create
+  [isLoading]="isCreatingCategory"
+  [error]="createCategoryError"
+  (create)="onCreateCategory($event)">
+</app-category-create>
+
+@if(categories) {
+  <app-category-list
+    [categories]="categories"
+    [isError]="isErrorLoadingCategories">
+  </app-category-list>
+}

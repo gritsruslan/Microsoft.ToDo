@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Microsoft.ToDo.Application\Microsoft.ToDo.Application.csproj" />
+      <ProjectReference Include="..\Microsoft.ToDo.Domain\Microsoft.ToDo.Domain.csproj" />
+      <ProjectReference Include="..\Microsoft.ToDo.Infrastructure\Microsoft.ToDo.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

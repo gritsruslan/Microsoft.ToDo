@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center mt-3">
+  <div
+    class="card shadow-sm w-100"
+    style="max-width: 900px; border-radius: 16px;">
+
+    <div class="card-body p-3">
+
+      <form
+        [formGroup]="form"
+        (ngSubmit)="createTask()">
+
+        <div class="d-flex gap-2">
+
+          <input
+            formControlName="title"
+            type="text"
+            class="form-control flex-grow-1"
+            placeholder="Enter a title for the new task">
+
+          <input
+            formControlName="dueDate"
+            type="datetime-local"
+            class="form-control"
+            style="max-width: 100px; min-width: 180px;">
+
+          <button
+            type="submit"
+            class="btn btn-primary px-4 d-flex align-items-center justify-content-center"
+            [disabled]="form.invalid || isCreating">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            {{ isCreating ? 'Creating...' : 'Create' }}
+          </button>
+
+        </div>
+
+        @if (form.controls.title.touched && form.controls.title.hasError('maxlength')) {
+          <div class="text-danger small mt-2">
+            The title is too long. Maximum length is {{VALIDATION.TASK_TITLE_MAX_LENGTH}} characters
+          </div>
+        }
+
+        @if (error) {
+          <div class="text-danger small mt-2">
+            Failed to create a new task. Please try again later.
+          </div>
+        }
+
+      </form>
+
+    </div>
+  </div>
+</div>

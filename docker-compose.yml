@@ -1,0 +1,15 @@
+name: microsoft.todo
+
+networks:
+  default:
+    name: microsoft.todo
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: StrongPassword52
+    ports:
+      - "1433:1433"
