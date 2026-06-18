@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {catchError, throwError} from 'rxjs';
+import {VALIDATION} from '../../contants/validation.constants';
 
 @Component({
   selector: 'app-register',
@@ -39,8 +40,8 @@ export class RegisterPageComponent {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(30),
+        Validators.minLength(VALIDATION.PASSWORD_MIN_LENGTH),
+        Validators.maxLength(VALIDATION.PASSWORD_MAX_LENGTH),
         Validators.pattern(/^(?=.*[a-z])(?=.*\d).+$/)
       ]
     }),

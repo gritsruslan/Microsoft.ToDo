@@ -14,14 +14,14 @@
           <input
             formControlName="title"
             type="text"
-            class="form-control"
+            class="form-control flex-grow-1"
             placeholder="Enter a title for the new task">
 
           <input
             formControlName="dueDate"
             type="datetime-local"
             class="form-control"
-            style="max-width: 250px;">
+            style="max-width: 100px; min-width: 180px;">
 
           <button
             type="submit"
@@ -35,23 +35,15 @@
 
         </div>
 
-        @if (form.controls.title.touched && form.controls.title.hasError('required')
-          ) {
+        @if (form.controls.title.touched && form.controls.title.hasError('maxlength')) {
           <div class="text-danger small mt-2">
-            Title is required
-          </div>
-        }
-
-        @if (form.controls.title.touched && form.controls.title.hasError('maxlength')
-          ) {
-          <div class="text-danger small mt-2">
-            Title is too long
+            The title is too long. Maximum length is {{VALIDATION.TASK_TITLE_MAX_LENGTH}} characters
           </div>
         }
 
         @if (error) {
           <div class="text-danger small mt-2">
-            {{ error }}
+            Failed to create a new task. Please try again later.
           </div>
         }
 

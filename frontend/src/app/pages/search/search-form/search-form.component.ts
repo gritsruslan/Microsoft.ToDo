@@ -1,17 +1,48 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
+import { CategoryService } from '../../../services/category.service';
+import { Category } from '../../../interfaces/models/category';
+import {VALIDATION} from '../../../contants/validation.constants';
 
 @Component({
   selector: 'app-search-form',
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule, AsyncPipe],
   templateUrl: './search-form.component.html'
 })
 export class SearchFormComponent {
-  @Output() search = new EventEmitter<string>();
 
-  query = '';
+  private categoryService = inject(CategoryService);
 
-  onSearch() {
-    this.search.emit(this.query.trim());
+  categories$ = this.categoryService.getCategories();
+
+  @Output() search = new EventEmitter<{
+    query: string;
+    categoryId: number | null;
+  }>();
+
+  form = new FormGroup({
+    query: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [
+        Validators.maxLength(VALIDATION.TASK_TITLE_MAX_LENGTH)
+      ]
+    }),
+    categoryId: new FormControl<number | null>(null)
+  });
+
+  get queryControl() {
+    return this.form.controls.query;
   }
+
+  onSubmit() {
+    if (this.form.invalid) return;
+
+    this.search.emit({
+      query: this.queryControl.value.trim(),
+      categoryId: this.form.controls.categoryId.value
+    });
+  }
+
+  protected readonly VALIDATION = VALIDATION;
 }

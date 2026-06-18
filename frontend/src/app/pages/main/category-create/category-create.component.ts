@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import {VALIDATION} from '../../../contants/validation.constants';
 
 @Component({
   selector: 'app-category-create',
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './category-create.component.html',
 })
 export class CategoryCreateComponent {
@@ -13,18 +14,28 @@ export class CategoryCreateComponent {
 
   @Output() create = new EventEmitter<string>();
 
-  categoryName = '';
+  form = new FormGroup({
+    name: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.maxLength(VALIDATION.CATEGORY_NAME_MAX_LENGTH)
+      ]
+    })
+  });
 
-  get isValidCategoryName() {
-    return this.categoryName.trim().length >= 1
-      && this.categoryName.trim().length <= 40;
+  get nameControl() {
+    return this.form.controls.name;
   }
 
-  createCategory() {
-    const name = this.categoryName.trim();
-    if (!name) {
-      return;
-    }
+  onSubmit() {
+    if (this.form.invalid) return;
+
+    const name = this.nameControl.value.trim();
     this.create.emit(name);
+
+    this.form.reset();
   }
+
+  protected readonly VALIDATION = VALIDATION;
 }

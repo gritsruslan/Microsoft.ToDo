@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import {CreateTaskRequest} from '../../../interfaces/requests/create-task-request';
+import {VALIDATION} from '../../../contants/validation.constants';
 
 @Component({
   selector: 'app-task-create',
@@ -18,7 +19,9 @@ export class TaskCreateComponent {
   form = new FormGroup({
     title: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required]
+      validators: [
+        Validators.required,
+        Validators.maxLength(VALIDATION.TASK_TITLE_MAX_LENGTH)]
     }),
     dueDate: new FormControl<string | null>(null)
   });
@@ -38,4 +41,6 @@ export class TaskCreateComponent {
       dueDate: value.dueDate
     });
   }
+
+  protected readonly VALIDATION = VALIDATION;
 }

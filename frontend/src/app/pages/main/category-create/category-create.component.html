@@ -1,33 +1,42 @@
 <div class="d-flex justify-content-center mt-3">
-  <div class="card shadow-sm w-100"
-       style="max-width: 900px; border-radius: 16px;">
+  <div
+    class="card shadow-sm w-100"
+    style="max-width: 900px; border-radius: 16px;">
 
     <div class="card-body p-3">
 
-      <div class="d-flex gap-2">
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        class="d-flex gap-2">
 
         <input
           type="text"
           class="form-control"
-          [(ngModel)]="categoryName"
+          formControlName="name"
           placeholder="Enter a name for the new category">
 
         <button
-          type="button"
+          type="submit"
           class="btn btn-primary px-4 d-flex align-items-center justify-content-center"
-          (click)="createCategory()"
-          [disabled]="isLoading || !isValidCategoryName">
+          [disabled]="isLoading || form.invalid">
 
           <i class="bi bi-plus-circle me-1"></i>
 
           {{ isLoading ? 'Creating...' : 'Create' }}
         </button>
 
-      </div>
+      </form>
+
+      @if (nameControl.touched && nameControl.errors?.['maxlength']) {
+        <div class="text-danger small mt-2">
+          The name is too long. Maximum length is {{VALIDATION.CATEGORY_NAME_MAX_LENGTH}} characters
+        </div>
+      }
 
       @if (error) {
         <div class="text-danger small mt-2">
-          {{ error }}
+          Failed to create a new category. Please try again later.
         </div>
       }
 

@@ -33,6 +33,7 @@ export class SearchPageComponent implements OnInit {
   pageSize = 6;
 
   query = '';
+  categoryId: number | null = null;
 
   isLoading = false;
   isError = false;
@@ -45,6 +46,13 @@ export class SearchPageComponent implements OnInit {
       this.query = params.get('query') ?? '';
       this.currentPage = Number(params.get('page') ?? 1);
 
+      const categoryParam = params.get('categoryId');
+
+      this.categoryId =
+        !categoryParam || categoryParam === 'any'
+          ? null
+          : Number(categoryParam);
+
       this.search();
     });
   }
@@ -54,7 +62,7 @@ export class SearchPageComponent implements OnInit {
     this.isError = false;
 
     this.taskService
-    .searchTasks(this.query, null, this.currentPage, this.pageSize)
+    .searchTasks(this.query, this.categoryId, this.currentPage, this.pageSize)
     .subscribe({
       next: data => {
         this.pagedTasks = data;
@@ -67,11 +75,12 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
-  onSearch(query: string) {
+  onSearch(search: {query: string, categoryId: number | null}) {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        query,
+        query: search.query,
+        categoryId: search.categoryId ?? 'any',
         page: 1
       }
     });
@@ -88,9 +97,10 @@ export class SearchPageComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
+        query: this.query,
+        categoryId: this.categoryId ?? 'any',
         page
-      },
-      queryParamsHandling: 'merge'
+      }
     });
   }
 
