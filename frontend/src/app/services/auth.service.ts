@@ -3,13 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs';
 import {RegisterRequest} from '../interfaces/requests/login-request';
 import {User} from '../interfaces/models/user';
+import {environment} from '../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private httpClient = inject(HttpClient)
-  private baseApiUrl = 'http://localhost:5284/api/auth'
+  private readonly apiUrl = `${environment.apiUrl}/api/auth`
   user: User | null = null;
 
   get isAuth() {
@@ -17,22 +18,22 @@ export class AuthService {
   }
 
   getMe() {
-    return this.httpClient.get<User>(`${this.baseApiUrl}/me`, {withCredentials: true})
+    return this.httpClient.get<User>(`${this.apiUrl}/me`, {withCredentials: true})
     .pipe(
       tap(user => this.user = user)
     );
   }
 
   register(request: RegisterRequest) {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/register`, request)
+    return this.httpClient.post<void>(`${this.apiUrl}/register`, request)
   }
 
   login(request: RegisterRequest) {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/login`, request, {withCredentials: true})
+    return this.httpClient.post<void>(`${this.apiUrl}/login`, request, {withCredentials: true})
   }
 
   logout() {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/logout`, {}, {withCredentials: true})
+    return this.httpClient.post<void>(`${this.apiUrl}/logout`, {}, {withCredentials: true})
     .pipe(
       tap(() => this.user = null)
     );

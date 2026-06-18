@@ -5,13 +5,14 @@ import {CreateTaskRequest} from '../interfaces/requests/create-task-request';
 import {UpdateTaskRequest} from '../interfaces/requests/update-task-request';
 import { PagedData } from '../interfaces/models/paged-data';
 import {Task} from '../interfaces/models/task';
+import {environment} from '../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
   httpClient = inject(HttpClient)
-  baseApiUrl = 'http://localhost:5284/api/tasks'
+  private readonly apiUrl = `${environment.apiUrl}/api/tasks`
 
   searchTasks(query: string | null, categoryId: number | null, page: number, pageSize: number) {
 
@@ -28,7 +29,7 @@ export class TaskService {
     }
 
     return this.httpClient.get<PagedData<Task>>(
-      this.baseApiUrl,
+      this.apiUrl,
       {
         params,
         withCredentials: true
@@ -37,14 +38,14 @@ export class TaskService {
   }
 
   createTask(request: CreateTaskRequest) {
-    return this.httpClient.post<void>(`${this.baseApiUrl}`, request, { withCredentials: true });
+    return this.httpClient.post<void>(`${this.apiUrl}`, request, { withCredentials: true });
   }
 
   updateTask(taskId: number, request: UpdateTaskRequest) {
-    return this.httpClient.put(`${this.baseApiUrl}/${taskId}`, request, { withCredentials: true });
+    return this.httpClient.put(`${this.apiUrl}/${taskId}`, request, { withCredentials: true });
   }
 
   deleteTask(taskId: number) {
-    return this.httpClient.delete(`${this.baseApiUrl}/${taskId}`, { withCredentials: true });
+    return this.httpClient.delete(`${this.apiUrl}/${taskId}`, { withCredentials: true });
   }
 }
