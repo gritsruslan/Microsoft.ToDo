@@ -1,0 +1,6 @@
+backend/Microsoft.ToDo.UnitTests/
+backend/**/bin/
+backend/**/obj/
+.git
+.vs
+.idea
