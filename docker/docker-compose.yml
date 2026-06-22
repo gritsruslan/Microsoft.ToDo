@@ -23,6 +23,7 @@ services:
     ports:
       - '7777:7777'
     environment:
+      ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__MsSql: Server=mssql,1433;Database=db;User Id=sa;Password=StrongPassword52;TrustServerCertificate=True
       FrontendOptions__BaseUrl: http://localhost:4200
       JwtOptions__Issuer: microsoft.todo.api

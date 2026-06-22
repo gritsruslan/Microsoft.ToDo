@@ -15,14 +15,13 @@ services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen();
 
-if (environment.IsDevelopment())
-{
-    var frontendOptions = configuration
-        .GetRequiredSection(nameof(FrontendOptions))
-        .Get<FrontendOptions>()!;
-    
-    services.AddCorsPolicy(frontendOptions);
-}
+
+var frontendOptions = configuration
+    .GetRequiredSection(nameof(FrontendOptions))
+    .Get<FrontendOptions>()!;
+
+services.AddCorsPolicy(frontendOptions);
+
 
 services.AddControllers();
 
@@ -42,10 +41,7 @@ var app = builder.Build();
 
 await app.MigrateDatabase();
 
-if (environment.IsDevelopment())
-{
-    app.UseCors(CorsExtensions.FrontendPolicyName);
-}
+app.UseCors(CorsExtensions.FrontendPolicyName);
 
 app.UseSwagger();
 app.UseSwaggerUI();
