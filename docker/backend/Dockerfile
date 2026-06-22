@@ -10,6 +10,10 @@ RUN dotnet publish Microsoft.ToDo.API/Microsoft.ToDo.API.csproj -c Release -o /a
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
+
+ENV ASPNETCORE_URLS=http://+:7777
+EXPOSE 7777
+
 COPY --from=build /app/publish .
 
 ENTRYPOINT ["dotnet", "Microsoft.ToDo.API.dll"] 
