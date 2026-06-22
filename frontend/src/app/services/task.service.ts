@@ -5,7 +5,7 @@ import {CreateTaskRequest} from '../interfaces/requests/create-task-request';
 import {UpdateTaskRequest} from '../interfaces/requests/update-task-request';
 import { PagedData } from '../interfaces/models/paged-data';
 import {Task} from '../interfaces/models/task';
-import {environment} from '../environments/environment.development';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

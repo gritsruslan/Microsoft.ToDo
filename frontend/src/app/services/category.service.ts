@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {inject, Injectable } from '@angular/core';
 import {tap} from 'rxjs';
 import {Category} from '../interfaces/models/category';
-import {environment} from '../environments/environment.development';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
