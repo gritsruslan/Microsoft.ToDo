@@ -23,7 +23,6 @@ services:
     ports:
       - '7777:7777'
     environment:
-      ASPNETCORE_URLS: http://+:7777
       ConnectionStrings__MsSql: Server=mssql,1433;Database=db;User Id=sa;Password=StrongPassword52;TrustServerCertificate=True
       FrontendOptions__BaseUrl: http://localhost:4200
       JwtOptions__Issuer: microsoft.todo.api
@@ -32,3 +31,14 @@ services:
       JwtOptions__ExpirationHours: 168
     depends_on:
       - mssql
+  
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/frontend/Dockerfile
+    container_name: microsoft.todo-frontend
+    image: microsoft.todo-frontend:latest
+    ports:
+      - '4200:80'
+    depends_on:
+      - api
