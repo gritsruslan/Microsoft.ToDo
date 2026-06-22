@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.ToDo.API.Extensions;
 using Microsoft.ToDo.API.Middlewares;
 using Microsoft.ToDo.Application;
@@ -38,6 +39,8 @@ services
     .AddInfrastructure(configuration);
 
 var app = builder.Build();
+
+await app.MigrateDatabase();
 
 if (environment.IsDevelopment())
 {
