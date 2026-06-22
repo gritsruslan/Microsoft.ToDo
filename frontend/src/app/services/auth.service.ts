@@ -10,7 +10,7 @@ import {environment} from '../../environments/environment';
 })
 export class AuthService {
   private httpClient = inject(HttpClient)
-  private readonly apiUrl = `${environment.apiUrl}/api/auth`
+  private readonly apiUrl = `${environment.apiUrl}/auth`
   user: User | null = null;
 
   get isAuth() {

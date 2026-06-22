@@ -12,7 +12,7 @@ import {environment} from '../../environments/environment';
 })
 export class TaskService {
   httpClient = inject(HttpClient)
-  private readonly apiUrl = `${environment.apiUrl}/api/tasks`
+  private readonly apiUrl = `${environment.apiUrl}/tasks`
 
   searchTasks(query: string | null, categoryId: number | null, page: number, pageSize: number) {
 

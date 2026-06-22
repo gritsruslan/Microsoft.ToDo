@@ -8,18 +8,22 @@ using Microsoft.ToDo.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
+var environment = builder.Environment;
 
 services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen();
 
-var frontendOptions = configuration
-    .GetRequiredSection(nameof(FrontendOptions))
-    .Get<FrontendOptions>()!;
+if (environment.IsDevelopment())
+{
+    var frontendOptions = configuration
+        .GetRequiredSection(nameof(FrontendOptions))
+        .Get<FrontendOptions>()!;
+    
+    services.AddCorsPolicy(frontendOptions);
+}
 
-services
-    .AddCorsPolicy(frontendOptions)
-    .AddControllers();
+services.AddControllers();
 
 services
     .AddIdentity<ApplicationUser, IdentityRole>()
@@ -35,7 +39,10 @@ services
 
 var app = builder.Build();
 
-app.UseCors(CorsExtensions.FrontendPolicyName);
+if (environment.IsDevelopment())
+{
+    app.UseCors(CorsExtensions.FrontendPolicyName);
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
