@@ -3,14 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs';
 import {RegisterRequest} from '../interfaces/requests/login-request';
 import {User} from '../interfaces/models/user';
-import {environment} from '../environments/environment.development';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private httpClient = inject(HttpClient)
-  private readonly apiUrl = `${environment.apiUrl}/api/auth`
+  private readonly apiUrl = `${environment.apiUrl}/auth`
   user: User | null = null;
 
   get isAuth() {

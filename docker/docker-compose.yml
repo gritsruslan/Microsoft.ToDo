@@ -1,0 +1,44 @@
+name: microsoft.todo
+
+networks:
+  default:
+    name: microsoft.todo
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: StrongPassword52
+    ports:
+      - "1433:1433"
+  
+  api:
+    build:
+      context: ../backend
+      dockerfile: ../docker/backend/Dockerfile
+    container_name: microsoft.todo-api
+    image: microsoft.todo-api:latest
+    ports:
+      - '7777:7777'
+    environment:
+      ConnectionStrings__MsSql: Server=mssql,1433;Database=db;User Id=sa;Password=StrongPassword52;TrustServerCertificate=True
+      FrontendOptions__BaseUrl: http://localhost:4200
+      JwtOptions__Issuer: microsoft.todo.api
+      JwtOptions__Audience: microsoft.todo.user
+      JwtOptions__SecretKey: pyD5fgujnfp3zrLR0LBApGl0zvBi8x97ZCW2iO0zRRx
+      JwtOptions__ExpirationHours: 168
+    depends_on:
+      - mssql
+  
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/frontend/Dockerfile
+    container_name: microsoft.todo-frontend
+    image: microsoft.todo-frontend:latest
+    ports:
+      - '4200:80'
+    depends_on:
+      - api
