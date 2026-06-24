@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:7777/api'
+  apiUrl: 'https://microsoft-todo-api-fpckf7bxa4e2dpcm.centralus-01.azurewebsites.net/' // Azure API
 };
