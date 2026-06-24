@@ -9,8 +9,8 @@ internal static class AuthTokenHelper
             new CookieOptions
             {
                 HttpOnly = true,
-                Secure = false,
-                SameSite = SameSiteMode.Strict,
+                Secure = true,
+                SameSite = SameSiteMode.None
             });
     
     public static void RemoveAccessToken(HttpContext httpContext) =>
