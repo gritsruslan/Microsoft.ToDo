@@ -15,13 +15,11 @@ services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen();
 
-
 var frontendOptions = configuration
     .GetRequiredSection(nameof(FrontendOptions))
     .Get<FrontendOptions>()!;
 
 services.AddCorsPolicy(frontendOptions);
-
 
 services.AddControllers();
 
