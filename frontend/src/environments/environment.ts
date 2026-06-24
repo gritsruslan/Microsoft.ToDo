@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://microsoft-todo-api-fpckf7bxa4e2dpcm.centralus-01.azurewebsites.net/' // Azure API
+  apiUrl: 'https://microsoft-todo-api-fpckf7bxa4e2dpcm.centralus-01.azurewebsites.net/api' // Azure API
 };
