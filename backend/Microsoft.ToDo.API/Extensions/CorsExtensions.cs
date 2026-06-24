@@ -15,7 +15,7 @@ internal static class CorsExtensions
             options.AddPolicy(FrontendPolicyName, policy =>
             {
                 policy
-                    .WithOrigins(frontendOptions.BaseUrl)
+                    .WithOrigins(frontendOptions.BaseUrls)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
