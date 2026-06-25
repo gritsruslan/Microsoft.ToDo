@@ -10,7 +10,7 @@ services:
     container_name: mssql
     environment:
       ACCEPT_EULA: Y
-      MSSQL_SA_PASSWORD: StrongPassword52
+      MSSQL_SA_PASSWORD: ${MSSQL_PASSWORD}
     ports:
       - "1433:1433"
   
@@ -24,12 +24,12 @@ services:
       - '7777:7777'
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__MsSql: Server=mssql,1433;Database=db;User Id=sa;Password=StrongPassword52;TrustServerCertificate=True
       FrontendOptions__BaseUrl: http://localhost:4200
-      JwtOptions__Issuer: microsoft.todo.api
-      JwtOptions__Audience: microsoft.todo.user
-      JwtOptions__SecretKey: pyD5fgujnfp3zrLR0LBApGl0zvBi8x97ZCW2iO0zRRx
-      JwtOptions__ExpirationHours: 168
+      ConnectionStrings__MsSql: ${MSSQL_CONNECTION_STRING}
+      JwtOptions__Issuer: ${JWT_TOKEN_ISSUER}
+      JwtOptions__Audience: ${JWT_TOKEN_AUDIENCE}
+      JwtOptions__SecretKey: ${JWT_TOKEN_SECRET_KEY}
+      JwtOptions__ExpirationHours: ${JWT_TOKEN_EXPIRATION_HOURS}
     depends_on:
       - mssql
   
