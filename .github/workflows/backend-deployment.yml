@@ -44,7 +44,7 @@ jobs:
         run: dotnet build ${{ env.API_PROJECT_PATH }} --configuration Release --no-restore
         
       - name: Run tests
-        run: dotnet test ./backend --configuration Release --no-restore --no-build
+        run: dotnet test ./backend --configuration Release --no-restore
         
       - name: Publish API
         run: dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --no-build --output ${{ env.PUBLISH_DIR }}
