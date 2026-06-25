@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-
 		..\docker\docker-compose.yml = ..\docker\docker-compose.yml
 		..\docker\backend\.dockerignore = ..\docker\backend\.dockerignore
 		..\docker\backend\Dockerfile = ..\docker\backend\Dockerfile
+		..\.github\workflows\azure-static-web-apps-ashy-sky-0ab1f5d0f.yml = ..\.github\workflows\azure-static-web-apps-ashy-sky-0ab1f5d0f.yml
+		..\.github\workflows\backend-deployment.yml = ..\.github\workflows\backend-deployment.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.ToDo.API", "Microsoft.ToDo.API\Microsoft.ToDo.API.csproj", "{627C876F-73E7-488B-9C52-3A2FD67008F3}"
